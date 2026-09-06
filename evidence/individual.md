@@ -106,4 +106,68 @@
   comprobando que cada requisito tuviera una condición de aceptación observable
   y que se distinguiera el alcance de cada versión del producto.
 
+## Integrante: Ariel Abimael Chacón Herrera
+
+- Mi contribución concreta y enlace a archivo, commit anterior o revisión:
+  Redacté `docs/decision-record.md`: la comparación de las cuatro alternativas
+  (PWA, web tradicional, app nativa y multiplataforma) en instalación, conexión
+  intermitente/offline, distribución, costo de desarrollo, mantenimiento, acceso
+  a capacidades del dispositivo y riesgos; la justificación de la estrategia
+  PWA + Next.js con las restricciones del equipo 10B-E04; las consecuencias y
+  riesgos con sus mitigaciones; y el plan de validación futura. Commit:
+  https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/<SHA del commit donde se agrega decision-record.md>
+
+- Decisión que puedo explicar y por qué:
+  Recomendé PWA por encima de app nativa aunque la nativa ofrece mejor acceso a
+  sensores. El equipo son tres estudiantes en un cuatrimestre que ya trabajan en
+  Next.js por el curso; los usuarios son personal interno de la UTT con equipos
+  mixtos (PC y móvil) y sin distribución por tiendas; y los requisitos de
+  dispositivo del caso —cámara para evidencia (RF-13), almacenamiento local
+  (RF-04) y cola de sincronización (RF-05)— están cubiertos por las APIs web
+  actuales. Una app nativa añadiría lenguajes y procesos de tienda sin un
+  beneficio que el caso necesite ahora.
+
+- Comando o prueba proporcionada que ejecuté:
+  `npm ci` y luego `npm run verify` (que ejecuta `npm test` y `next build`), en
+  Windows 11 con PowerShell.
+
+- Resultado real que observé:
+  `npm ci` instaló 28 paquetes desde el lockfile y advirtió de 2 vulnerabilidades
+  de severidad alta en dependencias transitivas del starter. `npm run verify`
+  terminó con «Verificación técnica: pass»: la prueba imprimió
+  `starter.spec.mjs: PASS` y `next build` (Next.js 14.2.35) compiló y generó 4/4
+  páginas estáticas (ruta `/`: 138 B, 87.4 kB First Load JS). Se generó
+  `reports/verification.json` con `"status": "pass"`, `"workingTreeClean": true`
+  y `runtime.node` `v24.16.0`; la revisión académica quedó como `pending`.
+
+- Qué verifica esa prueba y qué no verifica:
+  `npm run verify` comprueba tres cosas: (1) que existan los archivos requeridos,
+  (2) que pase `tests/starter.spec.mjs` —que solo revisa que el script `build`
+  sea `next build` y que `src/app/page.tsx` contenga los textos «Inspecciones de
+  laboratorio» y «sintéticos»— y (3) que `next build` compile. No comprueba que
+  las tres inspecciones se rendericen con sus valores en pantalla (eso se ve con
+  `npm run dev`), ni la calidad o coherencia del análisis de `docs/requirements.md`
+  o `docs/decision-record.md` (requieren revisión humana), ni la ausencia de
+  secretos, ni ninguna funcionalidad futura (offline, sincronización,
+  autenticación) que esta semana no se implementa.
+
+- Limitación, dificultad o riesgo que identifiqué:
+  El reporte local se generó con Node `v24.16.0`, más nuevo que el mínimo 20.19
+  declarado y que el `20.19.6` que usa GitHub Actions. El build local pasó, pero
+  la versión que se evalúa es la de Actions sobre el SHA final, así que hay que
+  confirmar que esa corrida quede verde antes de entregar. Además, `npm ci`
+  reportó 2 vulnerabilidades altas en dependencias del starter; no se modificaron
+  porque cambiar dependencias está fuera del alcance de esta semana, pero queda
+  registrado.
+
+- Uso de IA: herramienta, propósito, partes influenciadas y validación propia:
+  Usé Claude (Anthropic) para: (1) contrastar el estado del repositorio contra la
+  rúbrica de `ACTIVIDAD-01.md` y `ACLARACION.md`, (2) redactar y estructurar
+  `docs/decision-record.md` y esta sección de evidencia, y (3) lanzar e
+  interpretar `npm ci` y `npm run verify` en mi equipo. La comparación de
+  alternativas y la decisión reflejan el criterio acordado con el equipo. Revisé
+  el documento completo y confirmé personalmente el resultado de `npm run verify`
+  en mi terminal (`starter.spec.mjs: PASS`, build verde y
+  `reports/verification.json` con `status: pass`) antes de dejarlo aquí.
+
 > No necesitan inventar un error ni escribir pruebas nuevas. «Ejecuté npm test» es insuficiente como explicación: indiquen qué observa la prueba y qué comportamiento queda fuera.
