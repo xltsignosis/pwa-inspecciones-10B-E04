@@ -71,6 +71,8 @@
   contexto, los usuarios y escenarios de uso, los requisitos funcionales
   RF-01 a RF-18, los requisitos no funcionales, los datos sintéticos, los
   límites del producto y los criterios de aceptación de la versión inicial.
+  Commit:
+  https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/e20d47bf20cb68921eb950bf66311e793f760a5f
 
 - Decisión que puedo explicar y por qué:
   Organicé los requisitos por alcance de versión para distinguir las
