@@ -115,7 +115,7 @@
   a capacidades del dispositivo y riesgos; la justificación de la estrategia
   PWA + Next.js con las restricciones del equipo 10B-E04; las consecuencias y
   riesgos con sus mitigaciones; y el plan de validación futura. Commit:
-  https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/<SHA del commit donde se agrega decision-record.md>
+  https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/72ecf05f87965e560c7ce1cc1091eff862222153
 
 - Decisión que puedo explicar y por qué:
   Recomendé PWA por encima de app nativa aunque la nativa ofrece mejor acceso a
