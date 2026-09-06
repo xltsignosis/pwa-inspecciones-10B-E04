@@ -12,7 +12,8 @@
   `npm run dev` y verifiqué que las tres inspecciones sintéticas se
   mostraran correctamente en http://localhost:3000. También ejecuté la
   prueba proporcionada (`npm test`) y el registro de versiones de entorno
-  en el README. Commit: [https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/XXXXXXX]
+  en el README. Commit:
+  https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/43c16277525801e06bf6cbe88d4bcd1d2d6ce538
 
 - Decisión que puedo explicar y por qué:
   No se modifico `tsconfig.json` a pesar de que VS Code marca dos advertencias
