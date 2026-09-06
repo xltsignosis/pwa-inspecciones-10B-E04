@@ -63,4 +63,47 @@
   carga correcta de la app en localhost:3000, y el PASS de la prueba)
   antes de documentarlos aquí.
 
+## Integrante: Arturo Castañeda Serrano
+
+- Mi contribución concreta y enlace a archivo, commit anterior o revisión:
+  Elaboré y actualicé el análisis de requisitos del producto en
+  [`docs/requirements.md`](../docs/requirements.md). Definí el problema y
+  contexto, los usuarios y escenarios de uso, los requisitos funcionales
+  RF-01 a RF-18, los requisitos no funcionales, los datos sintéticos, los
+  límites del producto y los criterios de aceptación de la versión inicial.
+
+- Decisión que puedo explicar y por qué:
+  Organicé los requisitos por alcance de versión para distinguir las
+  capacidades disponibles en la versión inicial de las que requieren
+  desarrollo posterior, como el registro de inspecciones, el trabajo sin
+  conexión y la sincronización. Esto evita presentar funciones planeadas
+  como si ya estuvieran implementadas.
+
+- Comando o prueba proporcionada que ejecuté:
+  `npm run verify`
+
+- Resultado real que observé:
+  La comprobación de estructura, la prueba proporcionada y la compilación
+  finalizaron correctamente. La prueba mostró `starter.spec.mjs: PASS` y
+  Next.js compiló y generó las páginas estáticas sin errores. El reporte
+  técnico se generó con estado `pass`; la revisión académica quedó
+  pendiente.
+
+- Qué verifica esa prueba y qué no verifica:
+  `npm run verify` revisa la estructura requerida, ejecuta la prueba
+  proporcionada y realiza la compilación. No evalúa automáticamente la
+  calidad, coherencia o suficiencia de los requisitos; el contenido de
+  `docs/requirements.md` requiere revisión humana.
+
+- Limitación, dificultad o riesgo que identifiqué:
+  Los requisitos de operación sin conexión y sincronización describen una
+  capacidad necesaria del producto, pero aún dependen de implementar
+  almacenamiento local, control de conflictos y manejo de errores de red.
+
+- Uso de IA:
+  Usé Codex (OpenAI) como apoyo para estructurar `docs/requirements.md`. 
+  Revisé y adapté el contenido al caso de inspecciones de laboratorios, 
+  comprobando que cada requisito tuviera una condición de aceptación observable
+  y que se distinguiera el alcance de cada versión del producto.
+
 > No necesitan inventar un error ni escribir pruebas nuevas. «Ejecuté npm test» es insuficiente como explicación: indiquen qué observa la prueba y qué comportamiento queda fuera.
