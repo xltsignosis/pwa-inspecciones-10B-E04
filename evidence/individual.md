@@ -96,3 +96,77 @@
   evidencia. Ejecuté personalmente cada comando en mi terminal y confirmé
   los resultados (PASS de ambas pruebas, build exitoso) antes de
   documentarlos.
+
+
+# Evidencia individual
+
+- Estudiante: Ariel Abimael Chacón Herrera
+- Commit SHA evaluado: 61632046c1b4f474194a428ca579361d5fd492a0
+- Decisión técnica que puedo explicar:
+  Mi parte asignada en el reparto del equipo era el manejo del estado de
+  error en la interfaz. Al revisar el repositorio encontré que ese estado
+  ya había quedado implementado dentro del commit 9314050 (junto con los
+  estados de carga y vacío), y que ningún test cubría el comportamiento de
+  esos cuatro estados (`ready`/`loading`/`empty`/`error`) de
+  `src/app/page.tsx` — un hueco real frente a AC-03 ("las pruebas cubren
+  el comportamiento crítico"). Decidí no tocar `page.tsx` ni
+  `app-shell.tsx` para no duplicar ni pisar el trabajo ya commiteado por
+  un compañero, y en su lugar escribí `tests/ui-states.spec.mjs`: una
+  prueba de aserciones (`node:assert/strict`) sobre el código fuente, en
+  el mismo estilo que `tests/starter.spec.mjs` (sin renderizar un DOM),
+  para mantener consistencia con la infraestructura de pruebas existente
+  y no agregar dependencias nuevas (no hay jsdom ni Testing Library
+  instalados). La prueba verifica que existan las cuatro ramas de estado,
+  que el estado de carga use `role="status"`/`aria-busy="true"`, que el
+  de error use `role="alert"`/`aria-live="assertive"` con una acción de
+  reintentar, que el estado vacío ofrezca una acción de recuperación, y
+  que el botón "Reintentar consulta" transicione primero a `loading`
+  antes de volver a `ready` (en vez de saltar a un estado optimista sin
+  retroalimentación). También actualicé `README.md` para documentar el
+  incremento de la Semana 2 (shell, manifest, estados) sin borrar el
+  historial de la Semana 1, y registré el nuevo script de prueba en
+  `package.json`.
+
+- Prueba que ejecuté y resultado:
+  1. `npm ci`: instalación limpia sin errores (31 paquetes).
+  2. `npm test`: ejecuta en cadena `starter.spec.mjs`, `manifest.spec.ts`
+     y `ui-states.spec.mjs`. Las tres mostraron "PASS".
+  3. `npm run build`: compilación exitosa en Next.js 14.2.35, generando
+     las 4 páginas estáticas del proyecto.
+  4. `npm run verify` (equivalente a `make verify`): resultado
+     `"status": "pass"` en `reports/verification.json`.
+  5. `bash public-tests/check.sh`: imprime `PUBLIC_OK`.
+
+- Limitación o fallo diagnosticado:
+  `tests/ui-states.spec.mjs` verifica el comportamiento de los estados
+  mediante expresiones regulares sobre el texto fuente de `page.tsx`, no
+  renderizando la interfaz en un DOM real ni simulando clics de usuario;
+  por lo tanto no detecta regresiones de comportamiento en tiempo de
+  ejecución (por ejemplo, un `onClick` que compile pero no dispare el
+  cambio de estado real en el navegador). Elegí este enfoque porque es
+  determinista, no agrega dependencias y es consistente con el resto de
+  la suite, pero una mejora futura razonable sería incorporar jsdom y
+  Testing Library para probar la interacción real de los botones. También
+  diagnostiqué que `public-tests/check.sh` no puede ejecutar su
+  verificación de secretos en Windows local porque `rg` (ripgrep) no está
+  instalado en esta máquina — el script igual reporta `PUBLIC_OK` por el
+  mismo comportamiento de `set -e` con negación (`!`) que ya documentó un
+  compañero; en CI (Ubuntu) `rg` sí está disponible y el check corre
+  completo.
+
+- Cambio que podría defender o modificar en vivo:
+  Puedo explicar por qué `tests/ui-states.spec.mjs` usa aserciones sobre
+  el código fuente en vez de un renderizado real, mostrar cómo extendería
+  la prueba a jsdom + Testing Library si se agregara esa dependencia, y
+  ubicar en `src/app/page.tsx` exactamente dónde ocurre cada una de las
+  cuatro transiciones de estado que la prueba verifica.
+
+- Uso declarado de IA (herramienta, propósito, validación):
+  Usé Claude Code (Anthropic) para: (1) diagnosticar el estado real del
+  repositorio y determinar qué parte de mi tarea asignada ya estaba
+  cubierta por un compañero y qué faltaba genuinamente, (2) escribir
+  `tests/ui-states.spec.mjs` y las actualizaciones de `README.md`, y (3)
+  redactar esta evidencia. Validé personalmente ejecutando `npm ci`,
+  `npm test`, `npm run build`, `npm run verify` y
+  `public-tests/check.sh`, y revisé línea por línea el test antes de
+  commitearlo.
