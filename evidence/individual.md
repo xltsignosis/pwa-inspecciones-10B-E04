@@ -1,12 +1,58 @@
 # Evidencia individual
 
-- Estudiante:
-- Commit SHA evaluado:
+- Estudiante: Arturo Castañeda Serrano
+- Commit SHA evaluado: 9314050e3962ac00cffa51a6b89e56cb5ac48fb1
 - Decisión técnica que puedo explicar:
+  Diseñé e implementé el componente `src/components/app-shell.tsx` utilizando landmarks
+  HTML5 semánticos (`<header role="banner">`, `<nav aria-label="Navegación principal">`,
+  `<main id="main-content" role="main">`, `<footer role="contentinfo">`) y un enlace
+  de salto accesible (*skip link*) posicionado fuera de pantalla que se hace visible
+  al recibir foco con Tab. Decidí estructurarlo como un componente contenedor modular
+  que envuelve a `src/app/page.tsx` en lugar de acoplar la navegación dentro de la página,
+  garantizando que la aplicación sea navegable enteramente por teclado y accesible para
+  lectores de pantalla. En `src/app/page.tsx`, incorporé la directiva `"use client"` y un
+  simulador de estados interactivo para demostrar en vivo los estados de carga (*loading*
+  con skeletons accesibles que usan `role="status"` y `aria-busy="true"`), vacío (*empty
+  state* con botón de acción) y error de red, preservando rigurosamente las cadenas de texto
+  "Inspecciones de laboratorio" y "sintéticos" para evitar regresiones en `starter.spec.mjs`.
+
 - Prueba que ejecuté y resultado:
+  1. `npm run build`: Compilación exitosa en Next.js 14.2.35 generando las 4 páginas
+     estáticas del proyecto sin errores de tipos TypeScript.
+  2. Verificación de AC-02: Comprobación estricta de existencia de los cinco artefactos
+     (`public/manifest.webmanifest`, `src/app/layout.tsx`, `src/app/page.tsx`,
+     `src/components/app-shell.tsx`, `tests/manifest.spec.ts`), retornando código 0.
+  3. `tests/starter.spec.mjs` y `tests/manifest.spec.ts`: Ambas pruebas ejecutadas
+     con resultado PASS.
+  4. Prueba manual de interfaz y teclado: Comprobación de navegación mediante Tab y Enter
+     para activar el skip-link, recorrer los enlaces de navegación y alternar entre los
+     estados de carga, vacío y normal en la interfaz.
+
 - Limitación o fallo diagnosticado:
+  Diagnostiqué que `public-tests/check.sh` producía un falso positivo (mostraba
+  `PUBLIC_OK`) a pesar de que `src/components/app-shell.tsx` no existía. Esto se debía
+  a que en Bash bajo `set -e`, un fallo en un comando intermedio de una cadena `&&`
+  no detiene la ejecución del script si no es el último comando evaluado, continuando
+  hacia las siguientes líneas. En cambio, en GitHub Actions (paso AC-02 de
+  `week-02-w02-shell-manifest.yml`), dicha línea se ejecuta como comando único del step,
+  por lo que provocaba un fallo con código de salida 1. La resolución consistió en crear
+  el componente solicitado y verificar individualmente cada condición.
+
 - Cambio que podría defender o modificar en vivo:
+  Puedo explicar la jerarquía de landmarks en `src/components/app-shell.tsx`, cómo opera
+  el skip link accesible hacia `#main-content`, cómo se gestiona el foco por teclado con
+  `:focus-visible`, y cómo extender los estados de UI en `page.tsx` para conectar la
+  lectura asíncrona de IndexedDB o caché de Service Worker cuando se implemente en
+  semanas posteriores.
+
 - Uso declarado de IA (herramienta, propósito, validación):
+  Usé Antigravity (Google DeepMind) para: (1) diagnosticar el falso positivo de
+  `public-tests/check.sh` y la ausencia del componente `app-shell.tsx` exigido por AC-02,
+  (2) diseñar la estructura accesible del shell y los skeletons con animación shimmer en CSS,
+  y (3) redactar esta evidencia. Validé personalmente el código implementado, ejecuté
+  `npm run build` y las pruebas automatizadas, y verifiqué en el navegador el funcionamiento
+  de los estados y la navegación por teclado.
+
 
 # Evidencia individual
 
