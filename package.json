@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts",
+    "test": "node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts && node tests/ui-states.spec.mjs",
     "verify": "node scripts/verify.mjs"
   },
   "dependencies": {
