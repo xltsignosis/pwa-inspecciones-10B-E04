@@ -57,7 +57,7 @@
 # Evidencia individual
 
 - Estudiante: José Ricardo Cruz Aguilar
-- Commit SHA evaluado: d037577d3eeedaec85019a98b9720bb5222e9f76
+- Commit SHA evaluado: 7175de7cd78bfdd4c5a4c9fd519ec4c35936d242
 - Decisión técnica que puedo explicar:
   Escribí la prueba de instalabilidad como tests/manifest.spec.ts (no
   .mjs), agregando "tests/**/*.ts" al include de tsconfig.json e
