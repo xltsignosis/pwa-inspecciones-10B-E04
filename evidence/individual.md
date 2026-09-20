@@ -60,3 +60,57 @@
   validé su sintaxis con `node --check`. La validación funcional y las pruebas
   de regresión se realizarán cuando estén integrados los artefactos pendientes
   de la Semana 3.
+
+
+# Evidencia individual
+
+- Estudiante: José Ricardo Cruz Aguilar
+- Commit SHA evaluado: fb6666429b998f7c01d17910d9bb292a2bc90623
+- Decisión técnica que puedo explicar:
+  Implementé el registro del service worker en un componente cliente
+  separado (src/components/service-worker-registrar.tsx) en vez de
+  registrar el service worker directamente dentro de layout.tsx, porque
+  layout.tsx es un Server Component en Next.js App Router y no puede usar
+  hooks como useEffect ni acceder a window/navigator directamente. Separar
+  la lógica en un componente con "use client" permite mantener el layout
+  como Server Component mientras el registro del service worker se
+  ejecuta correctamente en el navegador.
+
+- Prueba que ejecuté y resultado:
+  Ejecuté npm run build, que compiló exitosamente incluyendo el nuevo
+  componente en el bundle (la ruta / pasó de 138 B a 2.5 kB de tamaño,
+  confirmando que ServiceWorkerRegistrar se incluyó). También verifiqué
+  manualmente con npm run dev y las DevTools del navegador (pestaña
+  Application → Service Workers), confirmando que el service worker de
+  mi compañero (public/sw.js) se registra correctamente en el scope
+  http://localhost:3000/ y aparece como "activated and is running".
+
+- Limitación o fallo diagnosticado:
+  Al escribir el import de mi componente en layout.tsx, el autocompletado
+  de VS Code sugirió por error un nombre y ruta distintos
+  (ServiceWorkerProvider desde @/app/service-worker-provider, un archivo
+  que no existe), generando el error "Cannot find module". Lo diagnostiqué
+  comparando el import real en el archivo (con Select-String) contra el
+  nombre y ubicación reales de mi componente, y lo corregí escribiendo el
+  import completo manualmente en vez de aceptar la sugerencia automática.
+
+- Cambio que podría defender o modificar en vivo:
+  Podría explicar por qué el registro ocurre dentro de un
+  window.addEventListener("load", ...) en vez de ejecutarse
+  inmediatamente: esto evita que el registro del service worker compita
+  por recursos con la carga inicial de la página, priorizando que el
+  contenido visible cargue primero. También podría modificar el código en
+  vivo para, por ejemplo, forzar skipWaiting() ante una actualización
+  detectada, explicando el trade-off de hacerlo automático (más agresivo)
+  frente a solo notificar (más seguro, lo que implementamos).
+
+- Uso declarado de IA (herramienta, propósito, validación):
+  Usé Claude (Anthropic) para: (1) generar la estructura inicial de
+  register-service-worker.ts y del componente cliente que lo invoca,
+  (2) redactar docs/cache-strategy.md ajustándolo al código real de
+  public/sw.js escrito por mi compañero (estrategias cache-first/
+  network-first, nombres de caché versionados, fallback offline), y
+  (3) diagnosticar el error de import causado por autocompletado. Ejecuté
+  personalmente cada comando (build, dev, verificación en DevTools) en mi
+  propia terminal y navegador, y confirmé cada resultado antes de
+  documentarlo aquí.
