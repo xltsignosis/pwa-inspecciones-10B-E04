@@ -114,3 +114,108 @@
   personalmente cada comando (build, dev, verificación en DevTools) en mi
   propia terminal y navegador, y confirmé cada resultado antes de
   documentarlo aquí.
+
+
+# Evidencia individual
+
+- Estudiante: Ariel Abimael Chacón Herrera
+- Commit SHA evaluado: faf1cda5d71d960f1686a3f87c4c69092caaea5b
+- Decisión técnica que puedo explicar:
+  Mi parte asignada en el reparto del equipo era Persona 3: escribir
+  `tests/service-worker.spec.ts` y `tests/offline.spec.ts`. Al revisar el
+  repositorio en `main` encontré que ninguno de los 5 entregables de la
+  semana existía todavía, pero que mis compañeros (Arturo y José) ya
+  habían resuelto `public/sw.js`, `src/lib/pwa/register-service-worker.ts`
+  y `docs/cache-strategy.md` en la rama remota `origin/pwa-semana03`
+  (arranca exactamente desde el mismo commit que `main`, sin conflictos).
+  Decidí trabajar sobre esa misma rama en vez de sobre `main` para no
+  duplicar ni pisar su trabajo, siguiendo el mismo criterio que ya apliqué
+  en la Semana 2. Escribí ambas suites en el mismo estilo que el resto de
+  `tests/` (`node:assert/strict`, lectura del código fuente como texto,
+  sin jsdom/Testing Library ni un runtime de Service Worker real, porque
+  no hay ninguna de esas dependencias instaladas): `service-worker.spec.ts`
+  verifica que `public/sw.js` declare `CACHE_VERSION` y nombres de caché
+  versionados, que registre los 3 eventos del ciclo de vida
+  (`install`/`activate`/`fetch`), que `activate` liste y borre cachés
+  viejas con `caches.keys()`/`caches.delete(...)`, y que exista una lista
+  `PRECACHE_URLS` no vacía que incluya el shell (`/`). `offline.spec.ts`
+  verifica que la lógica de `fetch` capture el fallo de red con
+  `try`/`catch`, que el `catch` intente `caches.match(...)` (incluyendo el
+  shell precacheado `/`) y devuelva una `Response` de reserva con estado
+  503 si no hay nada disponible, y que `register-service-worker.ts`
+  retorne sin lanzar una excepción cuando `'serviceWorker' in navigator`
+  es falso (para no bloquear la carga) y que el registro real encadene un
+  `.catch` para errores. También agregué ambas pruebas a la cadena de
+  `npm test` en `package.json` (no hay descubrimiento automático de
+  specs) y a la lista `required` de `scripts/verify.mjs`, que seguía
+  congelada en los artefactos de la Semana 1 y no detectaba si faltaban
+  los 5 archivos de esta semana. Actualicé `README.md` para documentar el
+  incremento de la Semana 3 sin borrar el historial anterior.
+
+- Prueba que ejecuté y resultado:
+  1. `npm ci`: instalación limpia sin errores (31 paquetes).
+  2. `npm test`: ejecuta en cadena las 5 pruebas (`starter.spec.mjs`,
+     `manifest.spec.ts`, `ui-states.spec.mjs`, `service-worker.spec.ts`,
+     `offline.spec.ts`). Las 5 mostraron "PASS".
+  3. Prueba de regresión intencional: sustituí temporalmente
+     `.map((cacheName) => caches.delete(cacheName))` por un mapeo sin
+     borrado en `public/sw.js` y confirmé que `service-worker.spec.ts`
+     falla con "activate debe borrar las cachés que ya no correspondan a
+     la versión actual"; luego restauré el archivo con
+     `git checkout -- public/sw.js` y confirmé que la prueba vuelve a
+     pasar. Hice lo mismo eliminando la verificación
+     `'serviceWorker' in navigator` de `register-service-worker.ts` y
+     confirmé que `offline.spec.ts` falla con el mensaje correspondiente,
+     antes de restaurar el archivo. Esto confirma que ambas suites sí
+     detectan una regresión real y no son aserciones vacías.
+  4. `npm run build`: compilación exitosa en Next.js 14.2.35, generando
+     las 4 páginas estáticas del proyecto.
+  5. `npm run verify` (equivalente a `make verify`): resultado
+     `"status": "pass"` en `reports/verification.json`, con el check de
+     estructura reconociendo ahora los 5 artefactos de la Semana 3 sin
+     archivos faltantes.
+  6. `bash public-tests/check.sh`: imprime `PUBLIC_OK`.
+
+- Limitación o fallo diagnosticado:
+  Ambas suites son aserciones estáticas (regex) sobre el texto fuente de
+  `public/sw.js` y `register-service-worker.ts`, no un runtime real de
+  Service Worker ni una simulación de la Cache API en un navegador; por
+  lo tanto no detectan, por ejemplo, que `cache.addAll(PRECACHE_URLS)`
+  falle en tiempo de ejecución por una URL rota, ni que el `fetch`
+  interceptado realmente sirva el contenido correcto en un navegador.
+  Elegí este enfoque porque es determinista, no agrega dependencias (no
+  hay Playwright ni un mock de Service Worker instalado) y es consistente
+  con el resto de la suite del proyecto — la misma limitación que ya
+  documenté para `tests/ui-states.spec.mjs` en la Semana 2. Una mejora
+  futura razonable sería una prueba E2E con Playwright que registre el
+  service worker real, simule `context.setOffline(true)` y verifique el
+  fallback en el navegador. También reconfirmé la limitación ya
+  documentada de `public-tests/check.sh` en Windows: `rg` (ripgrep) no
+  está instalado en esta máquina, así que la verificación de secretos no
+  corre localmente, pero el script igual imprime `PUBLIC_OK` por el mismo
+  comportamiento de `set -e` con negación (`!`) en una cadena `&&`; en CI
+  (Ubuntu) `rg` sí está disponible y el check corre completo.
+
+- Cambio que podría defender o modificar en vivo:
+  Puedo explicar por qué cada assert de `service-worker.spec.ts` y
+  `offline.spec.ts` corresponde a un requisito puntual del enunciado
+  (ciclo de vida, cachés versionadas, limpieza en activate, fallback
+  offline, no bloquear la carga), mostrar en vivo la prueba de regresión
+  intencional que hice (romper `activate` o el chequeo de soporte y ver
+  fallar la prueba correspondiente), y ubicar exactamente en
+  `public/sw.js` y `register-service-worker.ts` el fragmento que cada
+  aserción cubre.
+
+- Uso declarado de IA (herramienta, propósito, validación):
+  Usé Claude Code (Anthropic) para: (1) diagnosticar el estado real del
+  repositorio (ningún entregable de la semana existía en `main`, pero sí
+  en la rama remota `origin/pwa-semana03` de mis compañeros) y decidir
+  trabajar sobre esa rama en vez de duplicar trabajo, (2) escribir
+  `tests/service-worker.spec.ts` y `tests/offline.spec.ts` y las
+  actualizaciones de `package.json`, `scripts/verify.mjs` y `README.md`,
+  y (3) redactar esta evidencia. Validé personalmente ejecutando
+  `npm ci`, `npm test`, `npm run build`, `npm run verify` y
+  `public-tests/check.sh`, revisé línea por línea ambas pruebas antes de
+  commitearlas, y confirmé manualmente (rompiendo y restaurando el código
+  con `git checkout`) que cada prueba efectivamente detecta la regresión
+  que dice cubrir.
