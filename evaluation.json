@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "assignmentId": "w04-csr-ssr",
+  "assignmentId": "w05-sync-data",
   "schedule": {
-    "week": 4,
+    "week": 5,
     "partial": 1,
     "maxDurationDays": 7
   },
@@ -11,20 +11,20 @@
     "bucket": "continuous_activity"
   },
   "difficulty": {
-    "level": 7,
+    "level": 8,
     "justification": "Integra el mínimo oficial con restricciones de ingeniería, evidencia ejecutable, trade-offs y recuperación dentro de una semana."
   },
   "traceability": {
-    "officialOutcome": "Unidad II: renderizado del lado del cliente y del servidor; pantallas home, splash y carga.",
-    "institutionalMinimum": "Unidad II: renderizado del lado del cliente y del servidor; pantallas home, splash y carga.",
-    "engineeringTarget": "Implementar y comparar rutas CSR y SSR para el mismo dominio, midiendo impacto en carga, accesibilidad y complejidad.",
+    "officialOutcome": "Unidad II: APIs de almacenamiento local, remoto y sincronización de datos.",
+    "institutionalMinimum": "Unidad II: APIs de almacenamiento local, remoto y sincronización de datos.",
+    "engineeringTarget": "Diseñar consistencia offline-first con cola idempotente, reintentos, resolución de conflictos y prueba de pérdida o duplicación evitada.",
     "upliftBasis": "La actividad agrega criterios de calidad, automatización, seguridad, observabilidad y evidencia individual sin alterar el alcance oficial."
   },
   "competencies": {
-    "primary": "C04",
+    "primary": "C05",
     "cumulative": [
       "C03",
-      "C10"
+      "C11"
     ]
   },
   "reproducibility": {
@@ -35,7 +35,7 @@
     "required": true,
     "platform": "github_actions",
     "mode": "hybrid",
-    "workflowPath": ".github/workflows/week-04-w04-csr-ssr.yml",
+    "workflowPath": ".github/workflows/week-05-w05-sync-data.yml",
     "setupCommands": [
       "npm ci --ignore-scripts --no-audit --no-fund"
     ],
@@ -73,7 +73,7 @@
       "type": "automatic",
       "points": 3,
       "evidence": "Los artefactos declarados para la actividad existen.",
-      "command": "test -e 'src/app/inspecciones/page.tsx' && test -e 'src/app/inspecciones/[id]/page.tsx' && test -e 'src/components/loading-state.tsx' && test -e 'docs/rendering-decision.md' && test -e 'tests/rendering.spec.ts'"
+      "command": "test -e 'src/lib/sync/queue.ts' && test -e 'src/lib/storage/schema.ts' && test -e 'src/lib/sync/conflict-policy.ts' && test -e 'docs/sync-policy.md' && test -e 'tests/sync.spec.ts'"
     },
     {
       "id": "AC-03",
