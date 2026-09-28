@@ -11,7 +11,7 @@
 # Evidencia individual
 
 - Estudiante: José Ricardo Cruz Aguilar
-- Commit SHA evaluado: dae3c160d0500a1730af82d410df28c792da1a8d
+- Commit SHA evaluado: 116c55534234cf715df3f584bdc9c724669b7dd6
 - Decisión técnica que puedo explicar:
   Implementé src/app/inspecciones/page.tsx como un Server Component
   asíncrono (sin la directiva "use client"), que obtiene los datos de
@@ -68,7 +68,7 @@
 # Evidencia individual
 
 - Estudiante: Ariel Abimael Chacón Herrera
-- Commit SHA evaluado: 823cbd74d1ac61a2293fc72e55ff0cd24fce4d38
+- Commit SHA evaluado: 9b4f809e5dfda1f57adfb55241984144f8ba1c25
 - Decisión técnica que puedo explicar:
   Implementé src/app/inspecciones/[id]/page.tsx como Client Component
   ("use client") que obtiene el detalle con fetch dentro de useEffect, ya
@@ -147,7 +147,7 @@
 
 
 - Estudiante: Arturo Castañeda Serrano
-- Commit SHA evaluado: `57de204c1cef325d66156ad17a57f7c8c293c710`
+- Commit SHA evaluado: `b41d1aa2a2d1845661113f00c89941cba7923238`
 
 - Contribución concreta y archivos relacionados:
   Implementé `src/components/loading-state.tsx`, el componente compartido por
