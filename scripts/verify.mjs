@@ -3,7 +3,31 @@ import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const root = resolve(import.meta.dirname, "..");
-const required = ["package.json", "package-lock.json", "README.md", "src/app/layout.tsx", "src/app/page.tsx", "src/app/globals.css", "src/lib/data/inspections.ts", "docs/requirements.md", "docs/decision-record.md", "tests/starter.spec.mjs", "evidence/individual.md", "public/sw.js", "src/lib/pwa/register-service-worker.ts", "docs/cache-strategy.md", "tests/service-worker.spec.ts", "tests/offline.spec.ts"];
+const required = [
+  "package.json",
+  "package-lock.json",
+  "README.md",
+  "src/app/layout.tsx",
+  "src/app/page.tsx",
+  "src/app/globals.css",
+  "src/app/inspecciones/page.tsx",
+  "src/app/inspecciones/[id]/page.tsx",
+  "src/app/inspecciones/loading.tsx",
+  "src/app/api/inspecciones/[id]/route.ts",
+  "src/components/loading-state.tsx",
+  "src/lib/data/inspections.ts",
+  "docs/requirements.md",
+  "docs/decision-record.md",
+  "docs/cache-strategy.md",
+  "docs/rendering-decision.md",
+  "tests/starter.spec.mjs",
+  "tests/service-worker.spec.ts",
+  "tests/offline.spec.ts",
+  "tests/rendering.spec.ts",
+  "evidence/individual.md",
+  "public/sw.js",
+  "src/lib/pwa/register-service-worker.ts",
+];
 const missing = required.filter(file => !existsSync(resolve(root, file)));
 const structureOnly = process.argv.includes("--structure");
 if (structureOnly) {
