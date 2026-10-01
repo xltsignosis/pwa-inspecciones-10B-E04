@@ -2,7 +2,7 @@
 
 - Estudiante: Arturo Castañeda Serrano
 
-- Commit SHA evaluado:
+- Commit SHA evaluado: 8aed7b23c053910a45c7e444939ce84c96371ba7
 
 - Contribución concreta y archivos relacionados:
   Implementé `src/lib/storage/schema.ts`, que extiende el tipo `Inspection`
