@@ -55,3 +55,61 @@
   implementar el esquema con la API nativa de IndexedDB. Revisé personalmente el
   tipo `Inspection` existente y validé el resultado mediante la comprobación
   de TypeScript, las seis pruebas del proyecto y el build de producción.
+
+---
+
+# Evidencia individual — Semana 05
+
+- Estudiante: Ariel Abimael Chacón Herrera
+
+- Commit SHA evaluado: f58c4201d748becac508dc4b4ed50010fbe9f9cc
+
+- Contribución concreta y archivos relacionados:
+  Me tocó la política de conflictos, las pruebas y el documento de
+  sincronización: `src/lib/sync/conflict-policy.ts` (`resolveConflict`,
+  `resolveManually`, `isStaleAck`, `hasSameContent`), `tests/sync.spec.ts`
+  (9 casos) y `docs/sync-policy.md`.
+
+- Decisión técnica que puedo explicar:
+  Elegí "base común + decisión manual" en lugar de "el más reciente gana".
+  Cada registro recuerda `baseVersion`, la última versión que confirmó el
+  servidor. Si solo cambió el dispositivo se conserva la copia local, si solo
+  cambió el servidor se adopta la remota, y si cambiaron ambos el registro
+  queda en `conflict` con las dos copias (`remoteCopy`) hasta que una persona
+  elige. Descarté last-write-wins porque `updatedAt` depende del reloj de cada
+  dispositivo y podría borrar un hallazgo de inspección sin avisar. Una prueba
+  lo demuestra: una copia remota con fecha de 2030 no gana en silencio. El
+  trade-off es que dos ediciones concurrentes requieren intervención manual.
+  También uso `isStaleAck` para que una confirmación de una versión vieja (una
+  respuesta fuera de orden) no marque como sincronizada una edición más nueva.
+
+- Prueba que ejecuté y resultado:
+  `npx tsx tests/sync.spec.ts`: 9/9 casos `ok`. Cubren la idempotencia (la
+  misma clave enviada dos veces, y la respuesta perdida tras un timeout), la
+  operación sin red que permanece en la cola, el conflicto local + remoto, la
+  cola que sobrevive al reabrir IndexedDB, la respuesta vieja que llega tarde,
+  las respuestas en desorden y los payloads inválidos. Usan `fake-indexeddb` y
+  un servidor sintético en memoria. Para confirmar que detectan regresiones
+  quité a propósito la comprobación `isStaleAck` y la regla de duplicado del
+  servidor: en ambos casos la suite falló con `AssertionError`, y la restauré.
+  `npm run verify`: las 7 suites en PASS, `next build` sin errores y reporte
+  `pass`. Con `next start` y `curl` a `POST /api/inspecciones/sync`, el mismo
+  envío dos veces dio 200 y luego 200 con `duplicate: true`; un contenido
+  distinto sobre la misma versión dio 409 con la copia remota, y un payload
+  inválido dio 400.
+
+- Limitación o fallo diagnosticado:
+  Un registro en `conflict` no se reintenta solo. No se pierde, pero tampoco
+  llega al servidor hasta que alguien llama a `resolveManually`, y la interfaz
+  todavía no tiene la pantalla para hacerlo. Además, `fake-indexeddb` reproduce
+  la API pero no las cuotas ni el desalojo de almacenamiento de un navegador
+  real, y el servidor de pruebas vive en memoria.
+
+- Cambio que podría defender o modificar en vivo:
+  Puedo cambiar la política a last-write-wins comparando `updatedAt`, y mostrar
+  qué prueba falla y por qué se pierde un dato. También puedo agregar una
+  mezcla campo por campo cuando los cambios no se tocan entre sí, o explicar
+  con el caso de la respuesta tardía qué pasaría sin `isStaleAck`.
+
+- Uso declarado de IA (herramienta, propósito, validación):
+  Claude Code como apoyo en implementación, verificación y redacción; revisé y validé los resultados.
