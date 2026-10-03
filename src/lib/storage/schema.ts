@@ -15,6 +15,17 @@ export type StoredInspection = Inspection & {
   syncStatus: SyncStatus;
   version: number;
   updatedAt: string;
+  /** Ultima version confirmada por el servidor; permite detectar cambios concurrentes. */
+  baseVersion?: number;
+  /** Copia remota conservada cuando hay conflicto, para que el usuario decida. */
+  remoteCopy?: RemoteInspection;
+};
+
+/** Forma de una inspeccion tal como la guarda el servidor. */
+export type RemoteInspection = Inspection & {
+  clientId: string;
+  version: number;
+  updatedAt: string;
 };
 
 export const INSPECTIONS_DB_NAME = "laboratory-inspections";

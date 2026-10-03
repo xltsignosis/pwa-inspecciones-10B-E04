@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ServiceWorkerRegistrar } from "@/components/service-worker-registrar";
+import { SyncRegistrar } from "@/components/sync-registrar";
 
 export const metadata: Metadata = {
   title: "Inspecciones de laboratorio",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         {children}
         <ServiceWorkerRegistrar />
+        <SyncRegistrar />
       </body>
     </html>
   );
