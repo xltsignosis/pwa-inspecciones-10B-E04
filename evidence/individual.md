@@ -113,3 +113,51 @@
 
 - Uso declarado de IA (herramienta, propósito, validación):
   Claude Code como apoyo en implementación, verificación y redacción; revisé y validé los resultados.
+
+
+# Evidencia individual
+
+- Estudiante: José Ricardo Cruz Aguilar
+- Commit SHA evaluado: acf34ee8bb192d4d07caba01c574e9de8825c085
+- Decisión técnica que puedo explicar:
+  Implementé la cola de sincronización (src/lib/sync/queue.ts) reutilizando
+  directamente el object store de IndexedDB definido en
+  src/lib/storage/schema.ts, en vez de crear una cola independiente en
+  localStorage. Como clientId es la keyPath del object store, llamar a
+  enqueue() dos veces con la misma inspección (mismo clientId) sobrescribe
+  el registro existente en vez de insertarlo duplicado, lo que me dio
+  idempotencia de forma estructural sin tener que implementar una
+  verificación manual de duplicados.
+
+- Prueba que ejecuté y resultado:
+  Ejecuté npm run build, que compiló exitosamente sin errores de tipos,
+  confirmando que StoredInspection y los índices definidos en schema.ts
+  (by-sync-status) se integran correctamente con las funciones enqueue,
+  getPending, markSynced y markConflict de mi módulo.
+
+- Limitación o fallo diagnosticado:
+  markSynced() y markConflict() usan dos transacciones separadas (una
+  lectura con get() y, dentro de su callback, una escritura con put()) en
+  vez de hacerlo todo en una sola transacción atómica. Esto es una
+  limitación conocida: en un escenario con alta concurrencia (varias
+  pestañas escribiendo al mismo tiempo) podría existir una ventana breve
+  entre leer y escribir. Para el alcance de esta actividad, con un único
+  cliente operando la cola, no representa un riesgo real, pero lo dejo
+  documentado como mejora pendiente.
+
+- Cambio que podría defender o modificar en vivo:
+  Podría explicar por qué markSynced solo debe llamarse tras una
+  confirmación real del servidor y nunca ante un timeout, ya que un
+  timeout no prueba que el servidor no haya procesado la operación. En
+  vivo, también podría modificar getPending para aceptar un límite de
+  resultados, útil si la cola crece mucho en un dispositivo con
+  conectividad muy intermitente.
+
+ - Uso declarado de IA (herramienta, propósito, validación):
+   Usé Claude (Anthropic) para: (1) diseñar queue.ts aprovechando la
+   estructura real de IndexedDB ya implementada por mi compañero en
+   schema.ts, en vez de proponer un almacenamiento paralelo en
+   localStorage, y (2) redactar la documentación de por qué markSynced no
+   debe dispararse ante un simple fallo de red. Ejecuté personalmente
+   npm run build en mi terminal y confirmé que compilara sin errores antes
+   de documentar el resultado aquí.
