@@ -1,4 +1,4 @@
-# Actividad 5: Persistencia local y sincronización idempotente
+# Actividad 6: Capacidades del dispositivo y notificaciones
 
 ## Scenario
 
@@ -6,27 +6,27 @@ La Universidad Tecnológica de Tehuacán necesita una PWA para registrar inspecc
 
 ## Objective
 
-Diseñar consistencia offline-first con cola idempotente, reintentos, resolución de conflictos y prueba de pérdida o duplicación evitada.
+Integrar capacidades del dispositivo con permisos mínimos, fallback funcional, privacidad y manejo de fallos.
 
 ## Competencies
 
-**Primaria:** C05. **Acumulativas:** C03, C11.
+**Primaria:** C06. **Acumulativas:** C03, C05, C10.
 
 ## Engineering uplift traceability
 
-**Mínimo oficial:** Unidad II: APIs de almacenamiento local, remoto y sincronización de datos.
+**Mínimo oficial:** Unidad II: notificaciones push, características nativas del dispositivo y funcionamiento offline.
 
-**Elevación Engineering Target:** Diseñar consistencia offline-first con cola idempotente, reintentos, resolución de conflictos y prueba de pérdida o duplicación evitada.
+**Elevación Engineering Target:** Integrar capacidades del dispositivo con permisos mínimos, fallback funcional, privacidad y manejo de fallos.
 
-**Evidencia de la elevación:** Guarda inspecciones localmente, sincroniza al recuperar red, evita duplicados y aplica una política de conflicto explícita. La solución se juzga por comportamiento, decisiones justificadas, pruebas y reproducibilidad, no solo por una demo.
+**Evidencia de la elevación:** Permite adjuntar evidencia opcional y enviar/mostrar una notificación de cambio, con fallback cuando la API no existe o el permiso es denegado. La solución se juzga por comportamiento, decisiones justificadas, pruebas y reproducibilidad, no solo por una demo.
 
 ## Prerequisites
 
-Continuar el repositorio personal creado en las semanas anteriores. No descargues un starter nuevo: conserva las rutas, el cache y el manifest, y agrega solo la sincronización de esta semana.
+Continuar el repositorio personal creado en las semanas anteriores. No descargues un starter nuevo: conserva la captura y sincronización, y agrega solo la capacidad de dispositivo indicada.
 
 ## Schedule and one-week submission window
 
-Semana 5 del calendario de 14 semanas; trabajo individual preferente. Inicio en lunes y entrega a más tardar el domingo de esa misma semana. La duración máxima de la actividad es 7 días y no se aceptan extensiones implícitas de calendario.
+Semana 6 del calendario de 14 semanas; trabajo individual preferente. Inicio en lunes y entrega a más tardar el domingo de esa misma semana. La duración máxima de la actividad es 7 días y no se aceptan extensiones implícitas de calendario.
 
 ## Difficulty
 
@@ -34,22 +34,22 @@ Nivel 8/10. La dificultad proviene de integrar restricciones, justificar trade-o
 
 ## Requirements
 
-1. Continuar el mismo repositorio de inspecciones e implementar la captura offline indicada.
+1. Continuar el mismo repositorio de inspecciones e implementar las alertas y evidencia solicitadas.
 2. Entregar los archivos indicados y datos exclusivamente sintéticos.
 3. Explicar decisiones, límites, riesgos y evidencia de prueba.
 4. Ejecutar los comandos de verificación localmente antes de enviar.
 
-**Funcionalidad mínima:** Guarda inspecciones localmente, sincroniza al recuperar red, evita duplicados y aplica una política de conflicto explícita.
+**Funcionalidad mínima:** Permite adjuntar evidencia opcional y enviar/mostrar una notificación de cambio, con fallback cuando la API no existe o el permiso es denegado.
 
-**No funcionales:** La operación debe ser idempotente, validada, observable y resistente a reintentos, cierre de pestaña y respuestas fuera de orden.
+**No funcionales:** No usa secretos reales, solicita permisos bajo acción del usuario, limita datos recolectados y mantiene flujo útil sin la capacidad.
 
 ## Deliverables
 
-- `src/lib/sync/queue.ts`
-- `src/lib/storage/schema.ts`
-- `src/lib/sync/conflict-policy.ts`
-- `docs/sync-policy.md`
-- `tests/sync.spec.ts`
+- `src/lib/device/camera.ts`
+- `src/lib/device/geolocation.ts`
+- `src/lib/notifications/client.ts`
+- `docs/capabilities.md`
+- `tests/capabilities.spec.ts`
 - `README.md` con ejecución, supuestos y evidencia.
 - Reporte de verificación generado por CI o localmente.
 
@@ -107,7 +107,7 @@ Objetivo de automatización: 90% o más. El workflow instala, compila, ejecuta p
 
 ## Hidden tests
 
-`private-evaluator/w05-sync-data/check.sh` y su contrato JSON son solo del instructor. Cubren invariantes, regresiones, seguridad, idempotencia, accesibilidad o trazabilidad que no deben poder ajustarse mirando el caso público.
+`private-evaluator/w06-device-push/check.sh` y su contrato JSON son solo del instructor. Cubren invariantes, regresiones, seguridad, idempotencia, accesibilidad o trazabilidad que no deben poder ajustarse mirando el caso público.
 
 ## Manual review
 
