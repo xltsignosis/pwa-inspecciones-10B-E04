@@ -121,3 +121,18 @@ self.addEventListener("fetch", (event) => {
   // con caché como recuperación cuando la conectividad falla.
   event.respondWith(networkFirst(request));
 });
+
+// Al tocar una notificación de cambio de estado se enfoca la pestaña de esa
+// inspección si ya está abierta; si no, se abre.
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const path = (event.notification.data && event.notification.data.url) || "/";
+  const target = new URL(path, self.location.origin).href;
+
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
+      const open = windows.find((client) => client.url === target);
+      return open ? open.focus() : self.clients.openWindow(target);
+    }),
+  );
+});

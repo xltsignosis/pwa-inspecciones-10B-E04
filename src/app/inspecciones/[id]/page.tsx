@@ -5,6 +5,7 @@
 // ni Math.random().
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { InspectionCapabilities } from "@/components/inspection-capabilities";
 import { LoadingState } from "@/components/loading-state";
 import type { Inspection } from "@/lib/data/inspections";
 
@@ -114,6 +115,12 @@ export default function InspeccionDetallePage() {
           </div>
         </dl>
       </article>
+      <InspectionCapabilities
+        inspection={inspection}
+        onStatusChange={(status, statusLabel) =>
+          setState({ status: "ready", inspection: { ...inspection, status, statusLabel } })
+        }
+      />
     </main>
   );
 }

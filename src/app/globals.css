@@ -413,6 +413,84 @@ dd { font-size: .82rem; font-weight: 700; margin: 0; text-align: right; }
   background: #2546b8;
 }
 
+.action-btn:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.action-btn-secondary {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.action-btn-secondary:hover {
+  background: var(--accent-soft);
+}
+
+/* Capacidades opcionales del dispositivo en el detalle de la inspección */
+.capability-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  margin-top: 18px;
+  padding: 22px;
+}
+
+.capability-panel > .muted {
+  line-height: 1.55;
+  margin: 8px 0 0;
+}
+
+.capability-block {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+}
+
+.capability-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.capability-field {
+  color: var(--muted);
+  display: grid;
+  font-size: 0.82rem;
+  gap: 6px;
+  margin: 12px 0;
+  max-width: 420px;
+}
+
+.capability-field input[type="text"] {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: inherit;
+  padding: 10px 12px;
+}
+
+.capability-note {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 10px 0 0;
+  min-height: 1.5em;
+}
+
+.capability-note strong {
+  color: var(--ink);
+}
+
+.evidence-preview {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: block;
+  height: auto;
+  margin-top: 12px;
+  max-width: min(100%, 360px);
+}
+
 @media (max-width: 760px) {
   .page-shell { padding: 20px 16px; }
   .hero { padding: 28px 22px; }
