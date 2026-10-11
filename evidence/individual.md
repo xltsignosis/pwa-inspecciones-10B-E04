@@ -132,3 +132,44 @@
 - Uso declarado de IA (herramienta, propósito, validación):
   Claude Code como apoyo en implementación, verificación y redacción; revisé y validé los resultados.
 
+
+
+# Evidencia individual — Semana 06: Implementacion de permisos de camara
+
+- Estudiante: José Ricardo Cruz Aguilar
+- Commit SHA evaluado: 7d820399ddc6b6166bd0a213a4c57357adfcb8e5
+- Decisión técnica que puedo explicar:
+  Implementé src/lib/device/camera.ts con captureEvidence(), que solo
+  abre la cámara cuando el usuario la invoca (nunca al cargar la página)
+  y siempre devuelve un resultado controlado: captured, denied o
+  unavailable. Usé getUserMedia y no un input de archivo porque permite
+  pedir el permiso solo en el momento de la acción. Al dibujar el
+  fotograma en un canvas y exportarlo como JPEG, el archivo resultante no
+  conserva metadatos EXIF, con lo que se limita lo que se recolecta. El
+  bloque finally detiene las pistas de video para que la cámara no quede
+  encendida.
+
+- Prueba que ejecuté y resultado:
+  Ejecuté npm run build. Resultado: [pega aquí lo que viste, por ejemplo
+  "Compiled successfully"]. [Si probaste la captura en el navegador, di
+  qué hiciste y qué obtuviste. Si no, escribe que solo verifiqué la
+  compilación.]
+
+- Limitación o fallo diagnosticado:
+  El build solo comprueba tipos, no el comportamiento de la cámara real.
+  Para probar denied y unavailable hacen falta dobles de
+  navigator.mediaDevices, que corresponden a tests/capabilities.spec.ts
+  de mi compañero. Tampoco pude comprobar en un dispositivo móvil que
+  facingMode "environment" use la cámara trasera.
+  [Agrega aquí cualquier otro problema real que hayas encontrado.]
+
+- Cambio que podría defender o modificar en vivo:
+  Podría explicar por qué se hace stop() sobre las pistas en el finally
+  y por qué la función devuelve un tipo unión en lugar de lanzar un
+  error. En vivo podría cambiar la calidad de compresión del JPEG o
+  agregar un límite de tamaño para la foto.
+
+- Uso declarado de IA (herramienta, propósito, validación):
+  Usé Claude (Anthropic) para proponer la estructura de camera.ts y
+  revisar el manejo de permisos. Ejecuté yo mismo [los comandos que de
+  verdad corriste] y revisé el código antes de subirlo.
