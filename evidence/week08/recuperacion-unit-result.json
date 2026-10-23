@@ -1,0 +1,13 @@
+{
+  "layer": "unit",
+  "checkedAt": "2026-10-23T23:17:11.401Z",
+  "node": "v22.22.2",
+  "commitSha": "b5c03ab493bd85b2ce1c6c5b1fb7a30547a5c134",
+  "workingTreeClean": true,
+  "exitCode": 0,
+  "status": "pass",
+  "files": [
+    "tests/unit/idempotency.test.ts",
+    "tests/unit/inspection-validation.test.ts"
+  ]
+}

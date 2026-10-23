@@ -1,0 +1,48 @@
+✔ guardar offline persiste la inspección al reabrir IndexedDB (8.338861ms)
+✖ reintentar tras perder la respuesta deja un solo registro remoto y local (17.003392ms)
+✔ guardar dos veces la misma clave local conserva un solo registro con el último contenido (1.447095ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 230.491225
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ file                  | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ src                   |        |          |         | 
+ℹ  lib                  |        |          |         | 
+ℹ   storage             |        |          |         | 
+ℹ    schema.ts          |  88.13 |    66.67 |   68.18 | 46-50 66 69 74-76 84-87 113-114 118-120
+ℹ   sync                |        |          |         | 
+ℹ    conflict-policy.ts |  65.19 |    84.62 |   53.33 | 23 34-36 38-40 43-66 69-81 90-92
+ℹ    queue.ts           |  81.01 |    80.77 |   68.75 | 39-40 51 64 85 91-93 95-101 108-109 113-119 122-128 152-154 181-182 184-186 193-217 220-223
+ℹ    server-store.ts    |  95.95 |    55.17 |   86.67 | 34 49 54
+ℹ   validation          |        |          |         | 
+ℹ    inspection.ts      | 100.00 |    92.86 |  100.00 | 
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ all files             |  81.49 |    74.07 |   71.56 | 
+ℹ --------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report
+
+✖ failing tests:
+
+test at tests/integration/offline-sync.test.ts:2:2295
+✖ reintentar tras perder la respuesta deja un solo registro remoto y local (17.003392ms)
+  AssertionError [ERR_ASSERTION]: El reintento no debe crear una segunda inspección
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/home/arturo/Documentos/dev/pwa-inspecciones-10B-E04/tests/integration/offline-sync.test.ts:53:10)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

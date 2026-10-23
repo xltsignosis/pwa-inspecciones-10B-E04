@@ -1,0 +1,39 @@
+✔ preparar un reintento conserva clientId, versión y contenido (2.269309ms)
+✔ la misma operación se reconoce como duplicada sin insertar otra copia (0.724965ms)
+✔ una identidad inválida se rechaza sin crear registros (0.234671ms)
+✔ captura válida: acepta cero hallazgos y un entero positivo (0.755058ms)
+✔ captura inválida: rechaza sin datos (0.109256ms)
+✔ captura inválida: rechaza ubicación vacía (0.058298ms)
+✔ captura inválida: rechaza ubicación con espacios (0.051201ms)
+✔ captura inválida: rechaza inspector ausente (0.050624ms)
+✔ captura inválida: rechaza hallazgos negativos (0.047236ms)
+✔ captura inválida: rechaza hallazgos fraccionarios (0.047376ms)
+✔ captura inválida: rechaza hallazgos como texto (0.045576ms)
+✔ captura inválida: rechaza estado desconocido (0.131916ms)
+✔ la entrada real del servidor aplica la regla de captura antes de guardar (1.033151ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 380.550404
+ℹ start of coverage report
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ file                  | line % | branch % | funcs % | uncovered lines
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ src                   |        |          |         | 
+ℹ  lib                  |        |          |         | 
+ℹ   storage             |        |          |         | 
+ℹ    schema.ts          |  61.88 |    68.75 |   50.00 | 29-30 46-50 64-114 118-120
+ℹ   sync                |        |          |         | 
+ℹ    conflict-policy.ts |  64.44 |    85.71 |   56.25 | 23 38-40 43-66 69-81 84-87 90-92
+ℹ    queue.ts           |  57.02 |    84.62 |   27.59 | 39-40 45-51 53-64 66-75 78-93 95-101 104-110 113-119 122-128 139-152 156-163 166-186 190-220 222-225
+ℹ    server-store.ts    |  98.65 |    82.05 |   93.33 | 34
+ℹ   validation          |        |          |         | 
+ℹ    inspection.ts      | 100.00 |    95.24 |  100.00 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ all files             |  64.36 |    83.50 |   56.47 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report
