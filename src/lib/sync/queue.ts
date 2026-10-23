@@ -210,13 +210,11 @@ async function applyRemote(
 
 export function toOperation(record: StoredInspection): SyncOperation {
   const { syncStatus, baseVersion, remoteCopy, ...remote } = record;
-  // DEFECTO CONTROLADO: una identidad nueva por envío rompe el reintento idempotente.
-  const clientId = globalThis.crypto.randomUUID();
   return {
-    clientId,
+    clientId: record.clientId,
     version: record.version,
     baseVersion: baseVersion ?? 0,
-    record: { ...remote, clientId },
+    record: remote,
   };
 }
 
