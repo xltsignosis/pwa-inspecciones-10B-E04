@@ -17,7 +17,7 @@ El SHA final común se entrega en Classroom tras el último commit. No inserten 
 
 ## Arturo Castañeda Serrano · Unitarias, integración y defecto controlado
 
-- Grupo y equipo: equipo de este repositorio; identificación oficial en Classroom.
+- Grupo y equipo: 10B - Equipo E04.
 - Contribución concreta: regla compartida `src/lib/validation/inspection.ts`,
   `tests/unit/`, `tests/integration/`, `tests/fixtures/`, ejecutor
   `scripts/test-layer.mjs` y workflow `week-08-unit-integration.yml`.
