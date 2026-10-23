@@ -21,6 +21,7 @@ El SHA final común se entrega en Classroom tras el último commit. No inserten 
 - Contribución concreta: regla compartida `src/lib/validation/inspection.ts`,
   `tests/unit/`, `tests/integration/`, `tests/fixtures/`, ejecutor
   `scripts/test-layer.mjs` y workflow `week-08-unit-integration.yml`.
+- Link a la contribución: https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/8baa166
   Estrategia: [docs/test-strategy.md](../docs/test-strategy.md).
 - Decisión y motivo: conservar la suite anterior y probar resultados reales
   con el ejecutor de Node y fake-indexeddb ya disponibles. El fixture controla
