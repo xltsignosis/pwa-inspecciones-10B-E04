@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts && node tests/ui-states.spec.mjs && npx tsx tests/service-worker.spec.ts && npx tsx tests/offline.spec.ts && npx tsx tests/rendering.spec.ts && npx tsx tests/sync.spec.ts && npx tsx tests/geolocation.spec.ts && npx tsx tests/capabilities.spec.ts",
-    "verify": "node scripts/verify.mjs"
+    "test": "npm run test:unit && npm run test:integration && npm run test:legacy",
+    "verify": "node scripts/verify.mjs",
+    "test:legacy": "node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts && node tests/ui-states.spec.mjs && npx tsx tests/service-worker.spec.ts && npx tsx tests/offline.spec.ts && npx tsx tests/rendering.spec.ts && npx tsx tests/sync.spec.ts && npx tsx tests/geolocation.spec.ts && npx tsx tests/capabilities.spec.ts",
+    "test:unit": "node scripts/test-layer.mjs unit",
+    "test:integration": "node scripts/test-layer.mjs integration"
   },
   "dependencies": {
     "next": "14.2.35",

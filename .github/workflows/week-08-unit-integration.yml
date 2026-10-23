@@ -1,0 +1,38 @@
+name: Semana 08 - Unitarias e integración
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+      - name: Instalación reproducible
+        id: install
+        run: npm ci --no-audit --no-fund
+      - name: Pruebas unitarias
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:unit
+      - name: Pruebas de integración
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:integration
+      - name: Conservar resultados y cobertura incluso al fallar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: week08-unit-integration-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            reports/week08/
+            coverage/week08/

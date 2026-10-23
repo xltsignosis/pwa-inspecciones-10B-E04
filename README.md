@@ -103,6 +103,35 @@ Costo medido en `npm run build`: con el panel, `/inspecciones/[id]` pasa de 1.38
 
 ## Verificación
 
+### Semana 08: unitarias, integración y defecto controlado
+
+Estrategia y diagnóstico: [`docs/test-strategy.md`](docs/test-strategy.md).
+
+- `tests/unit/inspection-validation.test.ts`: captura válida/inválida y uso real en el servidor.
+- `tests/unit/idempotency.test.ts`: identidad estable, duplicados e identidad inválida.
+- `tests/integration/offline-sync.test.ts`: persistencia al reabrir IndexedDB, respuesta perdida/reintento y actualización de la misma clave local.
+- `tests/fixtures/`: datos sintéticos y transporte controlado sobre el envío, cola y servidor reales.
+- `.github/workflows/week-08-unit-integration.yml`: ambas capas y reportes incluso al fallar.
+
+```bash
+npm run test:unit
+npm run test:integration
+npm test
+```
+
+`npm test` incluye las capas nuevas y las nueve suites anteriores
+(`npm run test:legacy`). Se generan `reports/week08/{unit,integration}/`
+(`output.txt`, `result.json`) y `coverage/week08/{unit,integration}/lcov.info`;
+se ignoran en Git y se publican como artefactos de Actions. No se agregan
+dependencias: se usa el ejecutor de Node con tsx. El workflow nuevo usa
+Node 22.22.2. Estas dos capas no necesitan servidor ni puertos; sustituyen fetch.
+
+Rama temporal: `test/defecto-controlado`. Evidencia del fallo y recuperación:
+[`evidence/week08/defecto-controlado.md`](evidence/week08/defecto-controlado.md).
+Esta contribución no completa E2E, lint ni el workflow general de la semana;
+el equipo debe integrar esos requisitos.
+
+
 ```bash
 npm run verify
 ```

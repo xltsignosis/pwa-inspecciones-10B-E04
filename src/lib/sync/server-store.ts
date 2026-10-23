@@ -1,6 +1,7 @@
 import type { RemoteInspection } from "@/lib/storage/schema";
 import { hasSameContent } from "@/lib/sync/conflict-policy";
 import type { SyncOperation } from "@/lib/sync/queue";
+import { isValidInspection } from "@/lib/validation/inspection";
 
 /**
  * Lado servidor de la sincronización (en memoria, datos sintéticos).
@@ -35,11 +36,7 @@ export function validateOperation(input: unknown): SyncOperation | null {
   if (!isCount(operation.baseVersion, 0) || operation.baseVersion >= operation.version) return null;
   if (!record || typeof record !== "object") return null;
   if (record.clientId !== operation.clientId || record.version !== operation.version) return null;
-  if (record.status !== "ok" && record.status !== "attention") return null;
-  if (!isCount(record.findings, 0)) return null;
-
-  const texts = [record.id, record.location, record.date, record.inspector, record.statusLabel, record.summary, record.updatedAt];
-  if (!texts.every(isText)) return null;
+  if (!isText(record.updatedAt) || !isValidInspection(record)) return null;
 
   return operation as SyncOperation;
 }
