@@ -65,3 +65,79 @@ Qué demuestra y qué no demuestra: Las pruebas comprueban que la pantalla princ
 Limitación o riesgo: La interfaz revisada todavía no conecta un flujo completo de creación de inspecciones con IndexedDB. Por ello, el flujo E2E de persistencia offline y sincronización queda pendiente de la implementación correspondiente. La prueba de cámara simula el rechazo del permiso; no prueba permisos físicos en un dispositivo real.
 
 IA: herramienta, propósito, partes influidas y validación propia: Utilicé ChatGPT como apoyo para organizar las pruebas E2E, revisar los selectores de la interfaz y preparar los pasos de ejecución. La asistencia influyó en los archivos de pruebas y en la configuración de Playwright. Validé el resultado ejecutando los comandos en mi entorno local y comprobando la salida real de Playwright: 4 pruebas aprobadas en la ejecución completa y 1 prueba aprobada al ejecutar únicamente el caso de cámara denegada.
+
+---
+
+# Evidencia individual — Semana 08: Estrategia, CI y comandos
+
+- Estudiante: Ariel Abimael Chacón Herrera.
+- Grupo y equipo: 10B - Equipo E04.
+- Commit de mi contribución: `df0fbaf96ef71215c533aff1b0cca1db14dacb29`.
+  [Implementación](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/df0fbaf96ef71215c533aff1b0cca1db14dacb29).
+
+- Contribución concreta y archivos relacionados:
+  Mi parte asignada era la estrategia, CI y comandos: `docs/test-strategy.md`,
+  `.github/workflows/academic-evaluation.yml`, scripts npm, ejecutor de
+  verificación y README. También asumí los bloqueos encontrados: captura
+  conectada a IndexedDB desde el inicio (`inspection-capture.tsx`), actualización
+  de la lista al guardar/sincronizar, registro y caché del service worker y los
+  cinco E2E del flujo común en `tests/e2e/offline-capture.spec.ts`. Conservo las
+  unitarias, integración y defecto de Arturo y los cuatro E2E de José.
+
+- Decisión técnica y motivo:
+  Reutilizar el esquema, validación, cola y endpoint existentes; la interfaz
+  confirma primero la escritura en IndexedDB y solo después intenta enviar.
+  Así una desconexión no convierte un guardado local en una pérdida de datos.
+  `clientId` se conserva durante los reintentos. La pantalla escucha avisos
+  locales después de escrituras confirmadas y vuelve a leer el almacén; no
+  mantiene una segunda copia persistente en localStorage. Colocar la captura
+  en `/` aprovecha el shell offline y conserva las rutas anteriores.
+  `verify` ejecuta todas las capas y las comprobaciones independientes aunque
+  otra falle; E2E requiere build aprobado. El código de salida conserva el fallo.
+
+- Comprobaciones ejecutadas con asistencia de Codex y resultado local:
+  En Windows/PowerShell, Node `24.16.0`, npm `11.13.0`:
+  `npm.cmd ci --no-audit --no-fund` terminó con código 0;
+  `npx.cmd playwright install chromium` instaló el navegador;
+  `npm.cmd run verify` terminó con código 0: lint sin advertencias, tipos,
+  13 unitarias, 3 de integración, las nueve suites previas, build y 9 E2E
+  aprobados (14.1 s para E2E). `make verify` invoca el mismo script npm.
+  Los reportes locales se generaron con cambios aún sin commit; por eso su
+  `workingTreeClean: false` no identifica por sí solo el código ejecutado.
+
+- CI y reportes:
+  [Ejecución del commit de implementación](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/runs/40238500004).
+  Resultado remoto comprobado: `completed / success`, instalación limpia,
+  verificación completa y publicación de artefactos aprobadas en Ubuntu con
+  Node `22.22.2`. Artefacto publicado:
+  `week08-verification-df0fbaf96ef71215c533aff1b0cca1db14dacb29` (241908 bytes).
+  El workflow publica `week08-verification-<SHA>` con reporte global, salidas
+  por etapa, cobertura LCOV y reportes HTML/JSON de Playwright. Los artefactos
+  tienen retención de 14 días. Preparación y comandos se explican en
+  [la estrategia](../docs/test-strategy.md).
+
+- Qué demuestra y qué no demuestra:
+  Crear desde el formulario con la red desactivada, recargar conservando
+  campos/clientId, reconectar y observar una sola fila sincronizada. También
+  completa la captura sin cámara y detecta entradas inválidas. La pérdida
+  sintética de respuesta ocurre después del fetch real: el reintento conserva
+  el cuerpo y el servidor responde `duplicate: true`. La integración cuenta
+  exactamente un registro remoto; el E2E comprueba la fila local y el protocolo
+  idempotente. No se sustituyen esas pruebas por búsquedas de texto en el código.
+
+- Limitación o fallo diagnosticado:
+  El servidor sigue siendo un Map por proceso; no hay persistencia remota entre
+  reinicios ni pantalla para resolver conflictos manualmente. La foto es
+  opcional y temporal. Solo se ejecuta Chromium y los permisos se simulan.
+  Durante la integración se corrigieron una NodeList incompatible con ES5,
+  selectores ambiguos y la espera de scripts `nomodule` que Chromium no carga.
+  Se documentan los fallos sin presentarlos como comprobaciones aprobadas.
+
+- Uso declarado de IA y validación humana:
+  Codex de OpenAI se utilizó para auditar ramas e historial, implementar la
+  captura y pruebas adicionales, configurar comandos/CI, ejecutar verificaciones
+  y redactar documentación y evidencia. Influyó en los archivos del commit
+  enlazado y en esta sección. Los resultados técnicos descritos proceden de
+  ejecuciones reales asistidas; no equivalen a una revisión humana completada.
+  Queda pendiente que Ariel revise los cambios, reproduzca una prueba y pueda
+  explicar la identidad de reintento y la diferencia entre guardar y sincronizar.
