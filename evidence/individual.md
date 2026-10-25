@@ -132,6 +132,10 @@ IA: herramienta, propósito, partes influidas y validación propia: Utilicé Cha
   Durante la integración se corrigieron una NodeList incompatible con ES5,
   selectores ambiguos y la espera de scripts `nomodule` que Chromium no carga.
   Se documentan los fallos sin presentarlos como comprobaciones aprobadas.
+  Tras publicar, también falló el workflow heredado de semana 01 que invoca
+  `verify` sin preparar Chromium. Se corrige esa preparación en un commit
+  adicional, conservando los dos commits anteriores y Node 20.19.6. El fallo
+  público y el límite de acceso al log se registran en la estrategia.
 
 - Uso declarado de IA y validación humana:
   Codex de OpenAI se utilizó para auditar ramas e historial, implementar la

@@ -138,6 +138,13 @@ nunca cargados ni usa un porcentaje mínimo para declarar aprobado el trabajo.
   para evitar ambigüedad con el anunciador de rutas de Next.
 - Las rutas relativas de los reportes se resolvían desde la configuración E2E;
   ahora se anclan a la raíz para que coincidan con los artefactos de Actions.
+- El workflow heredado de semana 01 también llama a `npm run verify`, pero no
+  preparaba el navegador requerido por el verificador ampliado. Su ejecución
+  [falló en esa etapa](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/runs/40238735771).
+  Se añade la preparación de Chromium a ese workflow y se conserva Node 20.19.6.
+  El log detallado requiere autenticación y no se descargó; el fallo del paso
+  está confirmado mediante la API pública. La incompatibilidad de preparación
+  se identifica al inspeccionar el workflow, sin atribuirle errores no observados.
 
 Estos fallos se diagnosticaron con salidas reales; no eran ejecuciones aprobadas.
 Los reportes generados reflejan la última ejecución y no reemplazan la evidencia
