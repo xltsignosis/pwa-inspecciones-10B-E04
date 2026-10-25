@@ -8,6 +8,9 @@
     "start": "next start",
     "test": "npm run test:unit && npm run test:integration && npm run test:legacy",
     "verify": "node scripts/verify.mjs",
+    "lint": "eslint src tests scripts public/sw.js --ext .js,.mjs,.ts,.tsx --max-warnings=0",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test:e2e": "playwright test --config=tests/e2e/playwright.config.ts",
     "test:legacy": "node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts && node tests/ui-states.spec.mjs && npx tsx tests/service-worker.spec.ts && npx tsx tests/offline.spec.ts && npx tsx tests/rendering.spec.ts && npx tsx tests/sync.spec.ts && npx tsx tests/geolocation.spec.ts && npx tsx tests/capabilities.spec.ts",
     "test:unit": "node scripts/test-layer.mjs unit",
     "test:integration": "node scripts/test-layer.mjs integration"
@@ -22,6 +25,8 @@
     "@types/node": "^20.14.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.35",
     "fake-indexeddb": "^6.2.5",
     "tsx": "^4.23.13",
     "typescript": "^5.4.5"

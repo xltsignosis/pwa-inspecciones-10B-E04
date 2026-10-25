@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppShell } from "../components/app-shell";
 import { inspections } from "../lib/data/inspections";
+import { InspectionCapture } from "../components/inspection-capture";
 
 type ViewState = "ready" | "loading" | "empty" | "error";
 
@@ -22,6 +23,8 @@ export default function HomePage() {
           </p>
           <span className="status">Estado del starter: App shell integrado · Manifest PWA enlazado</span>
         </header>
+
+        <InspectionCapture />
 
         {/* Sección de contenido con estados */}
         <section aria-labelledby="inspections-heading" className="content-section">

@@ -3,7 +3,7 @@
 ## Qué se precachea
 
 Al instalar el service worker (evento `install`), se guardan en una caché
-versionada llamada `inspecciones-precache-v1` los recursos esenciales
+versionada llamada `inspecciones-precache-v2` los recursos esenciales
 para que la app cargue sin conexión:
 - `/` (página principal)
 - `/manifest.webmanifest`
@@ -16,7 +16,7 @@ interfaz básica se muestre incluso sin red.
 ## Estrategia de runtime cache
 
 Se usan dos estrategias distintas según el tipo de recurso, ambas
-guardadas en una caché separada llamada `inspecciones-runtime-v1`:
+guardadas en una caché separada llamada `inspecciones-runtime-v2`:
 
 - **Cache-first** para recursos estáticos (`style`, `script`, `image`,
   `font`): si el recurso ya está en caché, se sirve inmediatamente sin
@@ -45,7 +45,8 @@ error genérico de conexión.
 ## Estrategia de actualización
 
 Cada versión del service worker usa nombres de caché versionados con el
-sufijo `-v1` (`CACHE_VERSION`). En el evento `activate`, se listan todas
+sufijo `-v2` (`CACHE_VERSION`, actualizado en semana 08). En el evento
+`activate`, se listan todas
 las cachés existentes con el prefijo `inspecciones-` y se eliminan las
 que no coincidan con la versión de precache o runtime actual. Esto evita
 que coexistan archivos de una versión anterior con los de la versión
@@ -77,6 +78,7 @@ versión con datos reales.
   incluso si ya existiera una versión en caché más rápida de servir.
 - **Límite actual:** si falla el almacenamiento en runtime cache (por
   ejemplo, por cuota del navegador), el contenido igual se entrega al
-  usuario; simplemente no queda guardado para la próxima visita. Esta
-  semana no se implementa sincronización de datos capturados sin
-  conexión (eso corresponde a una semana futura del proyecto).
+  usuario; simplemente no queda guardado para la próxima visita.
+  Desde semana 08 se espera que termine `cache.put` antes de completar la
+  respuesta. La captura offline se persiste aparte en IndexedDB y se
+  sincroniza con la cola; no se almacenan sus POST en caché HTTP.

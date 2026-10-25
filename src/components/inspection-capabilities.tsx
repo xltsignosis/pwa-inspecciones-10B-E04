@@ -143,6 +143,8 @@ export function InspectionCapabilities({ inspection, onStatusChange }: Inspectio
           {photoNote}
         </p>
         {photoUrl && (
+          // El origen es un blob temporal local; no se envía al optimizador de imágenes.
+          // eslint-disable-next-line @next/next/no-img-element
           <img className="evidence-preview" src={photoUrl} alt="Foto adjunta como evidencia de la inspección" />
         )}
       </div>

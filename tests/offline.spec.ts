@@ -19,7 +19,9 @@ async function run() {
   );
 
   // Cuando la red falla, debe intentar servir algo desde caché antes de rendirse.
-  const catchBlockMatch = sw.match(/\}\s*catch\s*\{([\s\S]*?)\n\}/);
+  const networkFirst = sw.match(/async function networkFirst\(request\) \{([\s\S]*?)\n\}/);
+  assert.ok(networkFirst, "Debe existir el manejador de lectura networkFirst");
+  const catchBlockMatch = networkFirst[1].match(/\}\s*catch\s*\{([\s\S]*)/);
   assert.ok(catchBlockMatch, "Debe existir un bloque catch para el fallo de red");
   const catchBody = catchBlockMatch![1];
   assert.match(

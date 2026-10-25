@@ -8,3 +8,5 @@ coverage/
 reports/verification.json
 reports/week08/
 *.tsbuildinfo
+playwright-report/
+test-results/

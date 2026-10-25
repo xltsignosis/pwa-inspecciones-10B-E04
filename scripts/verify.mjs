@@ -41,6 +41,16 @@ const required = [
   "evidence/individual.md",
   "public/sw.js",
   "src/lib/pwa/register-service-worker.ts",
+  "src/components/inspection-capture.tsx",
+  "src/lib/storage/events.ts",
+  "src/lib/validation/inspection.ts",
+  "tests/unit/inspection-validation.test.ts",
+  "tests/unit/idempotency.test.ts",
+  "tests/integration/offline-sync.test.ts",
+  "tests/e2e/offline-capture.spec.ts",
+  "tests/e2e/playwright.config.ts",
+  "docs/test-strategy.md",
+  ".github/workflows/academic-evaluation.yml",
 ];
 const missing = required.filter(file => !existsSync(resolve(root, file)));
 const structureOnly = process.argv.includes("--structure");
@@ -50,18 +60,31 @@ if (structureOnly) {
 }
 const checks = [{ id: "structure", status: missing.length ? "fail" : "pass", missing }];
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-for (const [id, args] of [["test", ["test"]], ["build", ["run", "build"]]]) {
+const outputDirectory = resolve(root, "reports/week08/verify");
+mkdirSync(outputDirectory, { recursive: true });
+const stages = ["lint", "typecheck", "test:unit", "test:integration", "test:legacy", "build", "test:e2e"];
+for (const id of stages) {
+  if (id === "test:e2e" && checks.find(check => check.id === "build")?.status !== "pass") {
+    checks.push({ id, status: "skipped", reason: "El build obligatorio falló; no hay servidor verificable." });
+    continue;
+  }
   console.log(`\nVerificando ${id}...`);
-  const run = spawnSync(npm, args, { cwd: root, encoding: "utf8", shell: process.platform === "win32", maxBuffer: 20 * 1024 * 1024 });
+  const run = spawnSync(npm, ["run", id], {
+    cwd: root, encoding: "utf8", shell: process.platform === "win32",
+    env: { ...process.env, E2E_SKIP_BUILD: "1", NEXT_TELEMETRY_DISABLED: "1" },
+    maxBuffer: 20 * 1024 * 1024,
+  });
   if (run.stdout) process.stdout.write(run.stdout);
   if (run.stderr) process.stderr.write(run.stderr);
+  writeFileSync(resolve(outputDirectory, `${id.replaceAll(":", "-")}.txt`),
+    `${run.stdout ?? ""}${run.stderr ?? ""}${run.error?.message ?? ""}`);
   checks.push({ id, status: run.status === 0 && !run.error ? "pass" : "fail", exitCode: run.status, error: run.error?.message ?? null });
 }
 const git = args => {
   const r = spawnSync("git", args, { cwd: root, encoding: "utf8" });
   return r.status === 0 ? r.stdout.trim() : null;
 };
-const documents = ["docs/requirements.md", "docs/decision-record.md", "evidence/individual.md", "README.md"].map(file => ({ file, content: existsSync(resolve(root, file)) ? readFileSync(resolve(root, file), "utf8") : null }));
+const documents = ["docs/test-strategy.md", "evidence/individual.md", "README.md"].map(file => ({ file, content: existsSync(resolve(root, file)) ? readFileSync(resolve(root, file), "utf8") : null }));
 const gitStatus = git(["status", "--porcelain"]);
 const result = {
   schemaVersion: 2,
