@@ -1,0 +1,42 @@
+name: Semana 08 - Verificacion completa
+
+on:
+  push:
+    branches: [pwa-week-08]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+      - name: Instalacion limpia
+        run: npm ci --no-audit --no-fund
+      - name: Preparar Chromium y dependencias del sistema
+        run: npx playwright install --with-deps chromium
+      - name: Lint, tipos, unitarias, integracion, regresiones, build y E2E
+        run: npm run verify
+      - name: Conservar resultados y cobertura aun si falla la verificacion
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: week08-verification-${{ github.sha }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            reports/verification.json
+            reports/week08/
+            coverage/week08/
+            playwright-report/
+            test-results/

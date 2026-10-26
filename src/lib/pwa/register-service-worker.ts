@@ -8,7 +8,7 @@ export function registerServiceWorker(): void {
     return;
   }
 
-  window.addEventListener("load", () => {
+  const register = () => {
     navigator.serviceWorker
       .register("/sw.js")
       .then((registration) => {
@@ -28,5 +28,7 @@ export function registerServiceWorker(): void {
       .catch((error) => {
         console.error("No se pudo registrar el service worker:", error);
       });
-  });
+  };
+  if (document.readyState === "complete") register();
+  else window.addEventListener("load", register, { once: true });
 }

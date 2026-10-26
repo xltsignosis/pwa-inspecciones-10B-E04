@@ -1,0 +1,109 @@
+{
+  "run": {
+    "id": 40038806892,
+    "head_sha": "b5c03ab493bd85b2ce1c6c5b1fb7a30547a5c134",
+    "html_url": "https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/runs/40038806892",
+    "status": "completed",
+    "conclusion": "success",
+    "event": "push",
+    "head_branch": "test/defecto-controlado"
+  },
+  "jobs": [
+    {
+      "id": 120704716038,
+      "html_url": "https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/runs/40038806892/job/120704716038",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-23T23:17:20Z",
+          "completed_at": "2026-10-23T23:17:21Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-23T23:17:21Z",
+          "completed_at": "2026-10-23T23:17:22Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-23T23:17:22Z",
+          "completed_at": "2026-10-23T23:17:28Z"
+        },
+        {
+          "name": "Instalación reproducible",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-23T23:17:28Z",
+          "completed_at": "2026-10-23T23:17:32Z"
+        },
+        {
+          "name": "Pruebas unitarias",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-23T23:17:32Z",
+          "completed_at": "2026-10-23T23:17:33Z"
+        },
+        {
+          "name": "Pruebas de integración",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-23T23:17:33Z",
+          "completed_at": "2026-10-23T23:17:34Z"
+        },
+        {
+          "name": "Conservar resultados y cobertura incluso al fallar",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-23T23:17:34Z",
+          "completed_at": "2026-10-23T23:17:35Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-23T23:17:35Z",
+          "completed_at": "2026-10-23T23:17:35Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-23T23:17:35Z",
+          "completed_at": "2026-10-23T23:17:35Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-23T23:17:35Z",
+          "completed_at": "2026-10-23T23:17:35Z"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12537664436,
+      "name": "week08-unit-integration-b5c03ab493bd85b2ce1c6c5b1fb7a30547a5c134",
+      "size_in_bytes": 9041,
+      "expired": false
+    }
+  ]
+}

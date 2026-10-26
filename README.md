@@ -7,7 +7,9 @@ Comiencen por `START_HERE.md`. Este es un proyecto acumulativo: un repositorio p
 - **Semana 3** (`ASSIGNMENT-semana03.md`, *Actividad 3: Service worker y consulta offline*): se agregó el service worker (`public/sw.js`) con precache, runtime cache versionado (cache-first/network-first) y limpieza de cachés viejas en `activate`; su registro (`src/lib/pwa/register-service-worker.ts` + `src/components/service-worker-registrar.tsx`); la documentación de la estrategia (`docs/cache-strategy.md`); y las pruebas de service worker/offline.
 - **Semana 4** (`assignments/ASSIGNMENT-semana04.md`, *Actividad 4: Renderizado CSR/SSR con estados verificables*): se agregó un listado resuelto por un Server Component (`/inspecciones`, prerenderizado estáticamente por Next.js) y un detalle renderizado en cliente (`/inspecciones/[id]`, CSR), ambos con estados de carga, error y contenido; el componente compartido de estados (`src/components/loading-state.tsx`), la decisión documentada (`docs/rendering-decision.md`) y las pruebas de renderizado (`tests/rendering.spec.ts`).
 - **Semana 5** (`assignments/ASSIGNMENT.md`, *Actividad 5: Persistencia local y sincronización idempotente*): se agregó el almacenamiento local en IndexedDB (`src/lib/storage/schema.ts`), la cola de sincronización con reintentos y manejo de respuestas fuera de orden (`src/lib/sync/queue.ts`), la política de conflictos (`src/lib/sync/conflict-policy.ts`), un endpoint sintético idempotente (`POST /api/inspecciones/sync`), la documentación (`docs/sync-policy.md`) y las pruebas (`tests/sync.spec.ts`).
-- **Semana 6** (`assignments/ASSIGNMENT.md`, *Actividad 6: Capacidades del dispositivo y notificaciones*): se agregaron la captura de evidencia fotográfica (`src/lib/device/camera.ts`), la ubicación con captura manual (`src/lib/device/geolocation.ts`), el aviso de cambio de estado (`src/lib/notifications/client.ts`), el panel que los usa en el detalle de la inspección (`src/components/inspection-capabilities.tsx`), la documentación (`docs/capabilities.md`) y las pruebas (`tests/capabilities.spec.ts`, `tests/geolocation.spec.ts`). Los permisos se piden solo al presionar cada botón y la app funciona sin ellos. Es el incremento vigente de este README.
+- **Semana 6** (`assignments/ASSIGNMENT-semana06.md`, *Actividad 6: Capacidades del dispositivo y notificaciones*): se agregaron la captura fotográfica, ubicación manual, aviso de cambio de estado, panel del detalle, documentación y pruebas de capacidades. Los permisos se piden solo al presionar cada botón y la app funciona sin ellos.
+
+- **Semana 8** (`assignments/ASSIGNMENT-semana08.md`): incremento vigente. Captura real desde el inicio, persistencia y sincronización offline, pruebas por capas y verificación completa en CI. La semana 7 fue de evaluación, sin incremento nuevo.
 
 ## Entorno
 
@@ -16,14 +18,14 @@ Node.js 20.19 o posterior compatible, npm 10 o posterior, Git y cuenta de GitHub
 ### Versiones utilizadas por el equipo y CI
 - **Arturo Castañeda Serrano:** Node `v22.22.2`, npm `10.9.7` (Linux).
 - **José Ricardo Cruz Aguilar:** Node `v22.22.2`, npm `10.9.2` (Windows 10 / PowerShell).
-- **Ariel Abimael Chacón Herrera:** Node `v24.16.0`, npm `10.9.2` (Windows 11 / PowerShell).
-- **GitHub Actions (CI):** Node `v20.19.6`, npm `10.8.2` (Ubuntu Latest).
+- **Ariel Abimael Chacón Herrera, semana 08:** Node `v24.16.0`, npm `11.13.0` (Windows / PowerShell).
+- **GitHub Actions, semana 08:** Node `v22.22.2` (Ubuntu Latest); los workflows anteriores conservan su configuración.
 
 ### Dificultades de entorno y consideraciones
 - **Política de ejecución de scripts en PowerShell (Windows):** Al ejecutar `npm ci`, el sistema arrojó `PSSecurityException` al bloquear `npm.ps1`. Se resolvió ejecutando `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` en una terminal con permisos adecuados.
 - **Permisos en subprocesos (`spawnSync`):** En entornos locales restringidos, `npm run verify` puede reportar fallos de permisos (`spawnSync npm EPERM`). Se aseguró la ejecución con los permisos correctos sobre el directorio y procesos hijos para validar `npm test` y `next build`.
 - **Advertencias de deprecación en `tsconfig.json`:** TypeScript señala opciones deprecadas (`target: es5` y `baseUrl`). Se mantuvieron sin cambios para conservar la integridad del starter oficial de la Semana 1 y evitar discrepancias entre integrantes.
-- **Vulnerabilidades en dependencias transitivas:** `npm ci` advierte de 2 vulnerabilidades altas en paquetes del starter. Se decidió no modificar `package.json` ni el lockfile provisto para no alterar el alcance de la entrega.
+- **Dependencias:** en semanas anteriores se registraron avisos del starter. En semana 08 se actualizan `package.json` y el lockfile para añadir lint compatible con Next 14. ESLint 8 y algunas dependencias transitivas están deprecados; una migración de Next queda fuera de este incremento. La instalación limpia no equivale a una auditoría de seguridad.
 
 ## Ejecución
 
@@ -103,11 +105,73 @@ Costo medido en `npm run build`: con el panel, `/inspecciones/[id]` pasa de 1.38
 
 ## Verificación
 
+### Semana 08: captura offline, pruebas y CI
+
+Estrategia y diagnóstico: [`docs/test-strategy.md`](docs/test-strategy.md).
+
+- `tests/unit/inspection-validation.test.ts`: captura válida/inválida y uso real en el servidor.
+- `tests/unit/idempotency.test.ts`: identidad estable, duplicados e identidad inválida.
+- `tests/integration/offline-sync.test.ts`: persistencia al reabrir IndexedDB, respuesta perdida/reintento y actualización de la misma clave local.
+- `tests/fixtures/`: datos sintéticos y transporte controlado sobre el envío, cola y servidor reales.
+- `tests/e2e/`: cuatro pruebas anteriores y cinco escenarios nuevos del flujo real, captura inválida, cámara denegada/ausente y respuesta perdida.
+- `.github/workflows/academic-evaluation.yml`: instalación limpia y verificación completa, con reportes aun cuando una prueba falle.
+
+```bash
+npm ci
+npx playwright install chromium
+npm run lint
+npm run typecheck
+npm run test:unit
+npm run test:integration
+npm test
+npm run test:e2e
+npm run verify
+```
+
+`npm test` incluye las capas nuevas y las nueve suites anteriores
+(`npm run test:legacy`). Se generan `reports/week08/{unit,integration}/`
+(`output.txt`, `result.json`) y `coverage/week08/{unit,integration}/lcov.info`;
+se ignoran en Git y se publican como artefactos de Actions. Estas dos capas
+usan Node con tsx y no necesitan servidor ni puertos; sustituyen fetch.
+Se añade ESLint 8.57.1 con configuración Next 14.2.35, y se conserva Playwright
+1.64.1 del equipo. CI usa Node 22.22.2. Esta implementación se verifica en
+Windows con Node 24.16.0 y npm 11.13.0; usa `npm.cmd` si PowerShell bloquea `npm.ps1`.
+
+Rama temporal: `test/defecto-controlado`. Evidencia del fallo y recuperación:
+[`evidence/week08/defecto-controlado.md`](evidence/week08/defecto-controlado.md).
+El workflow del experimento fue eliminado en `5c26ce7`; los enlaces de fallo y
+recuperación conservan su valor histórico. El workflow vigente es el completo
+de esta semana, sin restaurar otro equivalente.
+
+En `/`, completa **Registrar inspección** con datos sintéticos. **Guardar
+inspección** confirma primero la escritura local; la sección **Inspecciones de
+este dispositivo** muestra Pendiente, Sincronizada o Conflicto. Para comprobar
+offline usa producción (`npm run build`, `npm run start`), carga una vez online
+y espera la activación del service worker; desconecta, guarda y recarga. Al
+reconectar se sincroniza conservando la identidad. La foto es opcional y temporal.
+Los tres ejemplos del simulador y el listado antiguo siguen siendo demostraciones
+separadas; los nuevos registros se consultan en la sección local del inicio.
+
+`npm run test:e2e` construye y arranca `npm run start -- -H 127.0.0.1 -p 3100`.
+Playwright administra y detiene ese servidor, sin reutilizar otro proceso.
+Dentro de `verify` se usa el build recién generado (`E2E_SKIP_BUILD=1`).
+Chromium usa service worker real y contextos nuevos por prueba. En Linux sin
+dependencias del navegador usa `npx playwright install --with-deps chromium`,
+como CI. Se genera HTML en `playwright-report/`, JSON en
+`reports/week08/e2e/results.json` y trazas/capturas de fallos en `test-results/`.
+
+
 ```bash
 npm run verify
 ```
 
-Ejecuta `npm test` (las suites encadenadas en el script `test` de `package.json`: `tests/starter.spec.mjs`, `tests/manifest.spec.ts`, `tests/ui-states.spec.mjs`, `tests/service-worker.spec.ts`, `tests/offline.spec.ts`, desde la Semana 4 `tests/rendering.spec.ts`, desde la Semana 5 `tests/sync.spec.ts` y desde la Semana 6 `tests/geolocation.spec.ts` y `tests/capabilities.spec.ts`) y `npm run build`; genera `reports/verification.json`. El reporte contiene resultados técnicos y documentos para revisión, no una calificación automática. `make verify` es equivalente. `bash public-tests/check.sh` es un check opcional de estructura (el mismo que corre en CI como AC-02).
+Ejecuta lint, tipos, unitarias, integración, las nueve suites anteriores, build y
+E2E. Genera `reports/verification.json` y logs por etapa en `reports/week08/verify/`.
+Continúa las comprobaciones independientes al detectar un fallo; E2E requiere
+build aprobado. Termina con código 1 si alguna comprobación obligatoria falla.
+El reporte contiene resultados técnicos, no una calificación automática.
+`make verify` ejecuta exactamente `npm run verify`; no hace falta instalar Make
+en Windows. La instalación limpia y la preparación de Chromium son pasos previos.
 
 `tests/ui-states.spec.mjs` verifica, mediante aserciones sobre el código fuente de `page.tsx` (sin renderizar un DOM real), que existan y estén correctamente anunciados los cuatro estados de la interfaz (carga, vacío, error, listo) y que el botón de reintentar del estado de error pase primero por "cargando" antes de volver a "listo".
 
@@ -119,7 +183,12 @@ Ejecuta `npm test` (las suites encadenadas en el script `test` de `package.json`
 
 `tests/capabilities.spec.ts` (Semana 6) también ejecuta comportamiento: simula `navigator`, `Notification` y `document` en Node, sin diálogos reales ni red. Tiene 11 casos: importar los módulos no pide permisos; sin las APIs ninguna función lanza y cada una devuelve su alternativa; la cámara distingue permiso denegado de fallo del dispositivo, pide solo video y siempre se apaga; la ubicación devuelve solo coordenadas y precisión o la captura manual; las notificaciones no vuelven a pedir un permiso denegado, lo piden una sola vez en el primer cambio, no insisten si se cierra el aviso, llevan solo laboratorio y estado, y caen al aviso en la app si mostrar la notificación falla; y la interfaz solo invoca las capacidades desde un botón. `tests/geolocation.spec.ts` cubre además el timeout y los fallos síncronos de la ubicación. Se ejecutan solas con `npx tsx tests/capabilities.spec.ts` y `npx tsx tests/geolocation.spec.ts`.
 
-GitHub Actions ejecuta en cada push el workflow de la semana vigente (`.github/workflows/week-06-w06-device-push.yml`: instalación limpia, build, existencia de artefactos y `npm test`) y publica el artefacto `academic-evidence-w06-device-push`. El reporte local se excluye de Git: adjúntenlo en Classroom o descarguen el del SHA entregado desde Actions.
+GitHub Actions ejecuta el workflow vigente `.github/workflows/academic-evaluation.yml`
+en push a `pwa-week-08` y en pull requests. Publica `week08-verification-<SHA>`
+con resultados, cobertura LCOV y reportes E2E durante 14 días, usando `if: always()`.
+Consulta [las ejecuciones de semana 08](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/workflows/academic-evaluation.yml?query=branch%3Apwa-week-08)
+y selecciona la del commit que estés revisando. Los workflows de semanas anteriores
+se conservan y su estado verde por sí solo no acredita los E2E nuevos.
 
 ## Trabajo y entrega en equipo
 
@@ -127,7 +196,8 @@ Inviten a los integrantes y al docente al mismo repositorio privado. Cada person
 
 ## Estructura y límites
 
-- `src/app/`: pantalla Next.js (`layout.tsx` enlaza el manifest y monta `ServiceWorkerRegistrar`, `page.tsx` implementa el simulador de estados).
+- `src/app/`: pantalla Next.js (`layout.tsx` enlaza el manifest y monta los registradores; `page.tsx` monta la captura local y conserva el simulador).
+- `src/components/inspection-capture.tsx`: formulario real y listado de registros de IndexedDB; `src/lib/storage/events.ts` notifica escrituras confirmadas a la vista.
 - `src/app/inspecciones/page.tsx` + `loading.tsx`: listado como Server Component, prerenderizado estáticamente con los datos actuales.
 - `src/app/inspecciones/[id]/page.tsx`: detalle CSR; `src/app/api/inspecciones/[id]/route.ts`: endpoint GET de solo lectura que lo alimenta.
 - `src/components/inspection-capabilities.tsx`: panel del detalle para adjuntar foto, tomar la ubicación y cambiar el estado con aviso.
@@ -142,12 +212,20 @@ Inviten a los integrantes y al docente al mismo repositorio privado. Cada person
 - `public/sw.js`: service worker (precache, runtime cache versionado, fallback offline, limpieza de cachés viejas y, desde la Semana 6, `notificationclick` para abrir la inspección notificada). Detalle de decisiones en `docs/cache-strategy.md`.
 - `public/manifest.webmanifest` + íconos: instalabilidad PWA (`name`, `short_name`, `display: standalone`, íconos 192/512).
 - `docs/`: requisitos, decisión del equipo, estrategia de caché (`cache-strategy.md`), decisión de renderizado CSR/SSR (`rendering-decision.md`), política de sincronización (`sync-policy.md`) y capacidades del dispositivo (`capabilities.md`).
-- `evidence/`: `individual.md` contiene la evidencia vigente de la Semana 6; `individual-semana05.md`, `individual-semana04.md` e `individual-semana03.md` conservan la de semanas anteriores.
-- `tests/`: `starter.spec.mjs` (regresión del starter), `manifest.spec.ts` (instalabilidad), `ui-states.spec.mjs` (estados de carga/vacío/error), `service-worker.spec.ts` (ciclo de vida y cachés del SW), `offline.spec.ts` (fallback offline y registro sin bloquear la carga), `rendering.spec.ts` (invariantes de renderizado y estados compartidos), `sync.spec.ts` (cola, idempotencia, conflictos y orden de respuestas), `geolocation.spec.ts` (ubicación y captura manual) y `capabilities.spec.ts` (permisos, alternativas y datos mínimos de cámara, ubicación y notificaciones). No es una suite E2E completa de comportamiento en navegador.
+- `evidence/`: `individual.md` contiene la evidencia vigente de la Semana 8; los archivos `individual-semanaXX.md` conservan las semanas anteriores.
+- `tests/`: nueve suites de regresión de las semanas anteriores, más `unit/`, `integration/`, `fixtures/` y `e2e/`. La estrategia distingue las aserciones estáticas antiguas del comportamiento real probado en Node y Chromium.
 
-Registren aquí sus supuestos y limitaciones de ejecución. Los estados de carga/vacío/error de la interfaz se disparan manualmente con el simulador de la página, no por fallas de red reales. Las pruebas de estados y las de service worker/offline son aserciones estáticas sobre el código fuente (no montan un DOM real, no simulan la Cache API ni un ciclo de vida real de Service Worker en un navegador); una mejora futura razonable es incorporar jsdom + Testing Library, o un entorno de pruebas con Service Worker real (p. ej. Playwright), para cubrir la interacción y el comportamiento en tiempo de ejecución.
+Los estados de carga/vacío/error del simulador se disparan manualmente. Las pruebas
+antiguas de estados y service worker son aserciones estáticas; los E2E nuevos
+complementan esa cobertura con Chromium, recarga offline e IndexedDB real.
 Supuestos y límites de la Semana 4: los datos de ambas rutas son el mismo arreglo sintético de `src/lib/data/inspections.ts` (3 registros, sin base de datos ni API externa), por lo que el error del listado solo ocurriría si esa fuente fallara. Con la fuente local e inmutable actual, Next.js genera `/inspecciones` como contenido estático durante el build; si los datos cambiaran por petición sería necesario definir una política de caché o revalidación. En la ruta CSR una inspección inexistente responde HTTP 200 en la página (el 404 lo recibe el `fetch` a la API), y el contenido no viene en el HTML inicial, lo que la hace menos adecuada que el listado para buscadores o clientes sin JavaScript. Como `public/sw.js` aplica red primero con caché de respaldo a los GET del mismo origen, sin conexión el detalle puede mostrar la última respuesta de la API guardada en caché en lugar del estado de error. No incluyan datos personales reales en el producto, archivos `.env` ni credenciales. La identificación de integrantes se conserva en el repositorio privado y Classroom.
 
-Supuestos y límites de la Semana 5: el "servidor" de sincronización es un `Map` en memoria del proceso de Next.js (se vacía al reiniciar y no se comparte entre instancias); sirve para demostrar el protocolo idempotente, no como persistencia real. La interfaz todavía no tiene formulario de captura ni pantalla para resolver conflictos: la cola se llena con `enqueue`/`saveLocalEdit` y `resolveManually` queda listo para conectarse. Un registro en `conflict` no se reenvía solo hasta que alguien elige una copia. Las pruebas usan `fake-indexeddb`, que reproduce la API de IndexedDB en Node pero no las cuotas ni el desalojo de almacenamiento de un navegador real. Detalle en `docs/sync-policy.md`.
+Supuestos y límites de sincronización: el servidor es un `Map` en memoria del
+proceso de Next.js; se vacía al reiniciar y no se comparte entre instancias.
+La captura de semana 08 conecta la cola al inicio; sigue pendiente la pantalla
+para resolver conflictos manualmente. Un registro en `conflict` conserva las
+copias y no se reenvía solo. fake-indexeddb no reproduce cuotas ni desalojo;
+los E2E agregan persistencia y recarga en Chromium, sin certificar todos los
+navegadores. Detalle en `docs/sync-policy.md` y `docs/test-strategy.md`.
 
 Supuestos y límites de la Semana 6: cámara, ubicación y notificaciones son opcionales y solo funcionan en HTTPS o `localhost`. La foto, la ubicación y el cambio de estado viven en el estado de la página y se pierden al recargar; todavía no se guardan en IndexedDB ni entran en la cola de sincronización. La notificación es local (Notifications API): no llega con la app cerrada ni a otros dispositivos, porque un push remoto requiere un servidor y credenciales que este repositorio no incluye. Si un permiso quedó bloqueado, solo la persona puede reactivarlo desde la configuración del sitio. Las pruebas simulan las APIs en Node y no sustituyen la revisión manual de los diálogos de permiso en un navegador real. Detalle en `docs/capabilities.md`.

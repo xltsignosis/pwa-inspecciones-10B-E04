@@ -1,0 +1,20 @@
+diff --git a/src/lib/sync/queue.ts b/src/lib/sync/queue.ts
+index a596ff2..b686a98 100644
+--- a/src/lib/sync/queue.ts
++++ b/src/lib/sync/queue.ts
+@@ -210,11 +210,13 @@ async function applyRemote(
+ 
+ export function toOperation(record: StoredInspection): SyncOperation {
+   const { syncStatus, baseVersion, remoteCopy, ...remote } = record;
++  // DEFECTO CONTROLADO: una identidad nueva por envío rompe el reintento idempotente.
++  const clientId = globalThis.crypto.randomUUID();
+   return {
+-    clientId: record.clientId,
++    clientId,
+     version: record.version,
+     baseVersion: baseVersion ?? 0,
+-    record: remote,
++    record: { ...remote, clientId },
+   };
+ }
+ 

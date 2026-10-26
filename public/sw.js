@@ -1,6 +1,6 @@
 /* global self, caches, clients, fetch, Response */
 
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const PRECACHE_NAME = `inspecciones-precache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `inspecciones-runtime-${CACHE_VERSION}`;
 const CACHE_PREFIX = "inspecciones-";
@@ -39,18 +39,18 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-function cacheRuntimeResponse(request, response) {
+async function cacheRuntimeResponse(request, response) {
   if (!response || !response.ok || response.type === "opaque") {
     return response;
   }
 
   const copy = response.clone();
-  caches
-    .open(RUNTIME_CACHE_NAME)
-    .then((cache) => cache.put(request, copy))
-    .catch(() => {
-      // El contenido sigue siendo utilizable aunque el almacenamiento falle.
-    });
+  try {
+    const cache = await caches.open(RUNTIME_CACHE_NAME);
+    await cache.put(request, copy);
+  } catch {
+    // El contenido sigue siendo utilizable aunque el almacenamiento falle.
+  }
 
   return response;
 }

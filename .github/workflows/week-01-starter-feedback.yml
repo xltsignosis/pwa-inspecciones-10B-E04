@@ -17,6 +17,8 @@ jobs:
           cache: npm
       - name: Instalación reproducible
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Preparar navegador requerido por la verificacion acumulativa
+        run: npx playwright install --with-deps chromium
       - name: Estructura, prueba y build
         run: npm run verify
       - name: Guardar evidencia técnica y documentos para revisión

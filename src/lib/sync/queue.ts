@@ -1,4 +1,5 @@
 import type { Inspection } from "@/lib/data/inspections";
+import { notifyInspectionsChanged } from "@/lib/storage/events";
 import {
   INSPECTIONS_STORE_NAME,
   INSPECTIONS_INDEXES,
@@ -52,6 +53,7 @@ export async function enqueue(inspection: StoredInspection, factory?: IDBFactory
     tx.onerror = () => reject(tx.error ?? new Error("No se pudo encolar la inspección."));
   });
   db.close();
+  notifyInspectionsChanged();
 }
 
 /**
@@ -107,7 +109,10 @@ async function updateRecord(
         written = change(record);
         if (written) store.put(written);
       };
-      tx.oncomplete = () => resolve(written);
+      tx.oncomplete = () => {
+        if (written) notifyInspectionsChanged();
+        resolve(written);
+      };
       tx.onerror = () => reject(tx.error ?? new Error("No se pudo actualizar el registro."));
       tx.onabort = () => reject(tx.error ?? new Error("Se canceló la actualización del registro."));
     });
