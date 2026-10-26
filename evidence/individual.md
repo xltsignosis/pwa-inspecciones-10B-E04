@@ -1,5 +1,12 @@
 # Evidencia individual · semana 8
 
+> **Historial de evidencias de semanas anteriores (conservadas en el repositorio):**
+> - [Semana 3 — Service Worker y consulta offline](individual-semana03.md)
+> - [Semana 4 — Renderizado CSR/SSR con estados verificables](individual-semana04.md)
+> - [Semana 5 — Persistencia local y sincronización idempotente](individual-semana05.md)
+> - [Semana 6 — Capacidades del dispositivo y notificaciones](individual-semana06.md)
+> - [Semana 8 — Evidencia del defecto controlado y recuperación](week08/defecto-controlado.md)
+
 ## Nombre:
 
 - Grupo y equipo:
