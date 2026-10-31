@@ -76,7 +76,7 @@ export function InspectionCapture() {
       summary: String(fields.get("summary")).trim(),
     };
     if (!isValidInspection(inspection)) {
-      setError("Completa los campos y usa un número entero de hallazgos mayor o igual a cero.");
+      setError("Completa los campos con una fecha válida, respeta la longitud máxima y usa entre 0 y 10000 hallazgos enteros.");
       return;
     }
     submitting.current = true;
@@ -105,14 +105,14 @@ export function InspectionCapture() {
       <p>Usa únicamente laboratorios, roles y observaciones sintéticos. Puedes guardar sin conexión y sin foto.</p>
       <form aria-label="Captura de inspección" onSubmit={save}>
         <div className="capture-fields">
-          <label>Laboratorio<input name="location" required autoComplete="off" /></label>
-          <label>Fecha<input name="date" type="date" required /></label>
-          <label>Rol del inspector<input name="inspector" required placeholder="Ej. Técnico de prueba" autoComplete="off" /></label>
+          <label>Laboratorio<input name="location" required maxLength={200} autoComplete="off" /></label>
+          <label>Fecha<input name="date" type="date" min="0001-01-01" max="9999-12-31" required /></label>
+          <label>Rol del inspector<input name="inspector" required maxLength={120} placeholder="Ej. Técnico de prueba" autoComplete="off" /></label>
           <label>Estado<select name="status" defaultValue="ok">
             <option value="ok">Sin incidencias</option><option value="attention">Requiere atención</option>
           </select></label>
-          <label>Hallazgos<input name="findings" type="number" min="0" step="1" defaultValue="0" required /></label>
-          <label>Resumen<textarea name="summary" required /></label>
+          <label>Hallazgos<input name="findings" type="number" min="0" max="10000" step="1" defaultValue="0" required /></label>
+          <label>Resumen<textarea name="summary" required maxLength={2000} /></label>
         </div>
         <button type="button" className="action-btn action-btn-secondary" disabled={cameraBusy} onClick={attachPhoto}>
           {cameraBusy ? "Abriendo cámara…" : "Adjuntar foto"}

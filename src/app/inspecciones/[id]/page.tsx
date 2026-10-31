@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { InspectionCapabilities } from "@/components/inspection-capabilities";
 import { LoadingState } from "@/components/loading-state";
 import type { Inspection } from "@/lib/data/inspections";
+import { isValidInspection } from "@/lib/security/validation";
 
 type DetailState =
   | { status: "loading" }
@@ -41,7 +42,8 @@ export default function InspeccionDetallePage() {
           return;
         }
 
-        const inspection: Inspection = await response.json();
+        const inspection: unknown = await response.json();
+        if (!isValidInspection(inspection)) throw new Error("Inspección inválida.");
         setState({ status: "ready", inspection });
       } catch (error) {
         // El abort ocurre al desmontar o al cambiar de id; no es un fallo real.

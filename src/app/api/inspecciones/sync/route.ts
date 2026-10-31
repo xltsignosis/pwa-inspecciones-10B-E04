@@ -1,6 +1,7 @@
 // Endpoint de sincronización: recibe las operaciones de la cola local.
 // Guarda en memoria (datos sintéticos) y usa clientId como clave de idempotencia.
 import { createSyncServer } from "@/lib/sync/server-store";
+import { InputError, readSyncJson } from "@/lib/security/request";
 
 export const dynamic = "force-dynamic";
 
@@ -9,9 +10,10 @@ const server = createSyncServer();
 export async function POST(request: Request) {
   let payload: unknown;
   try {
-    payload = await request.json();
-  } catch {
-    return Response.json({ error: "El cuerpo no es JSON válido." }, { status: 400 });
+    payload = await readSyncJson(request);
+  } catch (error) {
+    if (!(error instanceof InputError)) throw error;
+    return Response.json({ error: error.message }, { status: error.status });
   }
 
   const result = server.receive(payload);
