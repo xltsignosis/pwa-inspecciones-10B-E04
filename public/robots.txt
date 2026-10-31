@@ -1,0 +1,4 @@
+# PWA académica de datos sintéticos: se solicita no indexar ninguna ruta.
+# Estas reglas son públicas y voluntarias; no autentican ni protegen datos.
+User-agent: *
+Disallow: /
