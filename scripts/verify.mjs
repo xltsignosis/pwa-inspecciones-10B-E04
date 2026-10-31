@@ -51,6 +51,16 @@ const required = [
   "tests/e2e/playwright.config.ts",
   "docs/test-strategy.md",
   ".github/workflows/academic-evaluation.yml",
+  "docs/threat-model.md",
+  "docs/privacy-data-inventory.md",
+  "src/lib/security/validation.ts",
+  "src/lib/security/headers.ts",
+  "src/lib/security/request.ts",
+  "src/lib/security/environment.mjs",
+  "tests/security.spec.ts",
+  "tests/e2e/security-headers.spec.ts",
+  "public/robots.txt",
+  ".github/workflows/week-09-w09-security-privacy.yml",
 ];
 const missing = required.filter(file => !existsSync(resolve(root, file)));
 const structureOnly = process.argv.includes("--structure");
@@ -60,11 +70,11 @@ if (structureOnly) {
 }
 const checks = [{ id: "structure", status: missing.length ? "fail" : "pass", missing }];
 const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-const outputDirectory = resolve(root, "reports/week08/verify");
+const outputDirectory = resolve(root, "reports/week09/verify");
 mkdirSync(outputDirectory, { recursive: true });
-const stages = ["lint", "typecheck", "test:unit", "test:integration", "test:legacy", "build", "test:e2e"];
+const stages = ["lint", "typecheck", "test:unit", "test:integration", "test:security", "test:legacy", "build", "test:secrets", "test:e2e"];
 for (const id of stages) {
-  if (id === "test:e2e" && checks.find(check => check.id === "build")?.status !== "pass") {
+  if (["test:e2e", "test:secrets"].includes(id) && checks.find(check => check.id === "build")?.status !== "pass") {
     checks.push({ id, status: "skipped", reason: "El build obligatorio falló; no hay servidor verificable." });
     continue;
   }

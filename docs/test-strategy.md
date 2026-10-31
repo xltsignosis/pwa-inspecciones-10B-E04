@@ -1,5 +1,13 @@
 # Semana 08: estrategia de pruebas y verificación completa
 
+> Extensión de semana 09: `npm test` y `npm run verify` también ejecutan
+> `tests/security.spec.ts`. La verificación añade escaneo del build y tres E2E
+> de seguridad en `tests/e2e/security-headers.spec.ts`. Los logs de verificación
+> actuales están en `reports/week09/verify/`, seguridad en
+> `reports/week09/security/`; los reportes unitarios, de integración y E2E
+> anteriores conservan sus rutas de semana 08. Setup, diagrama, matriz de
+> controles y límites se describen en el README, sección de semana 09.
+
 ## Alcance y diagnóstico inicial
 
 Se conserva la PWA y sus nueve suites anteriores. En el diagnóstico de Arturo,

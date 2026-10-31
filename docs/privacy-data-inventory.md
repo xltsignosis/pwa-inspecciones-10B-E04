@@ -110,4 +110,21 @@ No existe todavía una política de retención de producción ni un mecanismo co
 
 ## 9. Declaración de privacidad
 
+### Precisiones de integración: acceso y conservación actuales
+
+| Almacén o salida | Quién puede acceder actualmente | Conservación y eliminación actuales |
+|---|---|---|
+| IndexedDB: inspecciones, metadatos y conflictos | Código del mismo origen y quien controle el perfil del navegador; no existe aislamiento por usuario | Sin vencimiento automático; hasta borrar datos del sitio, desalojo del navegador o mantenimiento manual |
+| Cache Storage: HTML, scripts, estilos, manifest y respuestas GET sintéticas | Código del mismo origen y herramientas del perfil local | Hasta reemplazo/limpieza de versiones del service worker, borrado del sitio o desalojo; no hay plazo por registro |
+| Map del servidor y operaciones recibidas | El proceso servidor; cualquier cliente con acceso al endpoint puede intentar escribir o provocar una respuesta de conflicto, sin autenticación | Hasta reinicio del proceso; no existe borrado remoto implementado |
+| Cola pendiente | Mismos accesos que IndexedDB | Permanece pendiente hasta confirmación; confirmar cambia el estado y no elimina la inspección local |
+| Foto y ubicación del panel | Interfaz de la pestaña y código de su origen | Foto/ubicación temporales hasta recarga o salida; la URL de foto se libera al reemplazarla o desmontar el panel |
+| Avisos del sistema | Persona que usa el dispositivo y quien vea la notificación | Depende del sistema operativo y de su descarte; la app no define un plazo |
+
+Estos son límites observados de la demostración, no una política de retención
+de producción. No existe un almacén independiente de mantenimiento: se
+representa mediante los campos sintéticos de inspección y observaciones.
+Los reportes CI contienen resultados, rutas y SHA; el workflow semanal conserva
+sus artefactos durante 14 días. La evidencia versionada permanece en Git.
+
 La PWA se desarrolla con el principio de minimización de datos: utiliza únicamente información necesaria para demostrar la captura, consulta y sincronización de inspecciones. Las capacidades de cámara y ubicación son opcionales y dependen de una acción explícita. El proyecto utiliza datos sintéticos y no debe incorporar información personal real durante esta actividad.

@@ -3,15 +3,16 @@ import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const layer = process.argv[2];
-if (!["unit", "integration"].includes(layer)) {
-  throw new Error("Uso: node scripts/test-layer.mjs unit|integration");
+if (!["unit", "integration", "security"].includes(layer)) {
+  throw new Error("Uso: node scripts/test-layer.mjs unit|integration|security");
 }
 const root = resolve(import.meta.dirname, "..");
-const reports = resolve(root, "reports/week08", layer);
-const coverage = resolve(root, "coverage/week08", layer);
+const week = layer === "security" ? "week09" : "week08";
+const reports = resolve(root, "reports", week, layer);
+const coverage = resolve(root, "coverage", week, layer);
 mkdirSync(reports, { recursive: true });
 mkdirSync(coverage, { recursive: true });
-const files = readdirSync(resolve(root, "tests", layer))
+const files = layer === "security" ? ["tests/security.spec.ts"] : readdirSync(resolve(root, "tests", layer))
   .filter((file) => file.endsWith(".test.ts")).sort()
   .map((file) => `tests/${layer}/${file}`);
 if (!files.length) throw new Error(`No hay pruebas para ${layer}`);

@@ -88,6 +88,27 @@ El contenido se limita al laboratorio y al estado de la inspección. No incluye 
 
 ## 8. Conclusión
 
+### Precisiones de integración de semana 09
+
+Prioridad de mitigación y riesgo residual sobre el comportamiento actual:
+
+| Amenazas | Prioridad | Mitigación verificable | Riesgo residual |
+|---|---|---|---|
+| T-01, T-08 | Alta | Campos exactos en cliente/servidor, límites HTTP, texto escapado por React y CSP con nonce | La validación no identifica información personal ni sustituye autorización; una dependencia comprometida puede ejecutar código permitido |
+| T-02, T-03 | Alta | Identidad estable, versiones y conservación de conflictos | El servidor pierde su Map al reiniciar; no hay pantalla de resolución manual |
+| T-04, T-05 | Alta antes de datos reales | Mantener el alcance sintético y minimizar datos | No hay autenticación, aislamiento por usuario ni cifrado local propio |
+| T-06, T-10 | Media | Permisos tras clic, cámara sin audio, alternativas y notificación mínima | El navegador y la pantalla bloqueada pueden conservar o mostrar información |
+| T-07 | Alta | Bloqueo de NEXT_PUBLIC_*, revisión de fuentes y patrones en recursos cliente generados | El detector tiene patrones limitados; no certifica historial, infraestructura ni todos los formatos de credencial |
+| T-09 | Alta en despliegue | HTTPS y HSTS; desarrollo limitado a localhost | El repositorio no acredita la configuración de un despliegue HTTPS |
+| T-11: pérdida de conectividad o respuesta | Alta | IndexedDB conserva pendientes y reintentos idempotentes; respuestas inesperadas no confirman datos | Cuota, borrado o desalojo del navegador pueden perder datos; no se garantiza durabilidad remota |
+
+Cache Storage también es un activo: conserva shell, recursos y respuestas GET
+del mismo origen. La caché offline contiene HTML y su CSP original; no debe
+usarse para datos reales sin revisar retención y separación de usuarios.
+El diagrama de flujo y los límites de confianza están en el README, sección
+de semana 09. Las verificaciones se enlazan allí sin atribuir pruebas nuevas
+a los autores de los controles originales.
+
 La PWA ya incorpora controles importantes de validación, sincronización idempotente y permisos mínimos. Sin embargo, antes de utilizar información real se requiere fortalecer la autenticación, autorización, persistencia, protección de datos locales y configuración de seguridad del despliegue.
 
 El objetivo es mantener la confidencialidad, integridad y disponibilidad de los registros sin recopilar información innecesaria.
