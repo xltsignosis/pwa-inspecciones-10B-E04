@@ -107,3 +107,25 @@ Los resultados descritos proceden de ejecuciones reales asistidas.
   enlazados. Revisión humana de Ariel: pendiente; no se afirma realizada.
 
 Resultados y enlaces: [evidencia técnica de semana 09](week09/verification.md).
+
+
+
+# Evidencia individual
+
+- **Estudiante:** José Ricardo Cruz Aguilar
+- **Commit SHA evaluado:** 490d24f52d3347ae60e2203f1493438508b4ea8b
+
+- **Decisión técnica que puedo explicar:**
+  Decidí separar la documentación de seguridad en dos archivos: `docs/threat-model.md` y `docs/privacy-data-inventory.md`. El primero permite identificar los activos de la PWA, los límites de confianza, las amenazas y los controles existentes o recomendados. El segundo permite identificar qué datos utiliza la aplicación, con qué propósito, dónde se almacenan y qué consideraciones de privacidad deben tomarse en cuenta. Esta separación facilita analizar los riesgos de seguridad y el tratamiento de los datos.
+
+- **Prueba que ejecuté y resultado:**
+  Verifiqué mediante PowerShell que ambos documentos estuvieran creados dentro de la carpeta `docs/` y que contuvieran información. Después agregué los dos archivos a Git y realicé su entrega en la rama `pwa-week-09`. **Resultado:** los dos documentos quedaron preparados y entregados en el repositorio.
+
+- **Limitación o fallo diagnosticado:**
+  Durante el análisis identifiqué que algunos aspectos requieren atención adicional, como la autenticación y autorización del endpoint de sincronización, la configuración de políticas CSP y la definición de políticas formales de retención y eliminación de datos. Estos puntos deben verificarse o implementarse para fortalecer la seguridad y privacidad de la aplicación.
+
+- **Cambio que podría defender o modificar en vivo:**
+  Puedo explicar y modificar el modelo de amenazas, por ejemplo, agregar una amenaza relacionada con el acceso no autorizado al endpoint de sincronización, describir su posible impacto y proponer controles para reducir el riesgo. También puedo actualizar el inventario si se incorpora un nuevo dato o cambia su almacenamiento.
+
+- **Uso declarado de IA (herramienta, propósito, validación):**
+  Utilicé ChatGPT como herramienta de apoyo para organizar la información, estructurar el modelo de amenazas y redactar el inventario de datos y privacidad. Validé y adapté el contenido considerando la estructura y las características conocidas de la PWA, revisando que los documentos correspondieran a mi responsabilidad y que no se presentaran controles pendientes como si ya estuvieran implementados.
