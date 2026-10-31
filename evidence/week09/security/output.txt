@@ -1,0 +1,64 @@
+✔ acepta el contrato válido y los límites documentados (1.8903ms)
+✔ rechaza inspección: null (0.1146ms)
+✔ rechaza inspección: arreglo (0.048ms)
+✔ rechaza inspección: campo extra (0.0678ms)
+✔ rechaza inspección: campo ausente (0.049ms)
+✔ rechaza inspección: objeto anidado (0.0393ms)
+✔ rechaza inspección: tipo numérico incorrecto (0.0468ms)
+✔ rechaza inspección: fecha imposible (0.0459ms)
+✔ rechaza inspección: año cero (0.0499ms)
+✔ rechaza inspección: texto vacío (0.0829ms)
+✔ rechaza inspección: control ASCII (0.0413ms)
+✔ rechaza inspección: identificador inválido (0.0423ms)
+✔ rechaza inspección: estado desconocido (0.0705ms)
+✔ rechaza inspección: longitud location (0.0358ms)
+✔ rechaza inspección: longitud inspector (0.0331ms)
+✔ rechaza inspección: longitud summary (0.0479ms)
+✔ rechaza inspección: longitud statusLabel (0.0638ms)
+✔ rechaza inspección: hallazgos -1 (0.0498ms)
+✔ rechaza inspección: hallazgos 1.5 (0.0336ms)
+✔ rechaza inspección: hallazgos 10001 (0.0292ms)
+✔ rechaza inspección: hallazgos NaN (0.0228ms)
+✔ rechaza inspección: hallazgos Infinity (0.0227ms)
+✔ rechaza prototipos, símbolos y accesores sin ejecutar el getter (0.0996ms)
+✔ servidor rechaza estructuras y versiones manipuladas sin modificar datos (0.7599ms)
+✔ endpoint aplica 400, 413 y 415 sobre peticiones reales (16.0328ms)
+✔ límite HTTP cuenta bytes UTF-8 y no confía en Content-Length (0.2455ms)
+✔ respuestas manipuladas conservan íntegro el registro pendiente (13.6433ms)
+✔ CSP de producción restringe orígenes y genera nonces diferentes (1.2588ms)
+✔ configuración pública se rechaza sin revelar su valor (0.4197ms)
+✔ detector identifica credenciales sintéticas y evita marcar palabras documentales (3.1034ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 209.9418
+ℹ start of coverage report
+ℹ -----------------------------------------------------------------------------------------------------------------------------------
+ℹ file                    | line % | branch % | funcs % | uncovered lines
+ℹ -----------------------------------------------------------------------------------------------------------------------------------
+ℹ src                     |        |          |         | 
+ℹ  app                    |        |          |         | 
+ℹ   api                   |        |          |         | 
+ℹ    inspecciones         |        |          |         | 
+ℹ     sync                |        |          |         | 
+ℹ      route.ts           | 100.00 |    94.12 |  100.00 | 
+ℹ  lib                    |        |          |         | 
+ℹ   security              |        |          |         | 
+ℹ    headers.ts           | 100.00 |    94.74 |  100.00 | 
+ℹ    request.ts           | 100.00 |    96.67 |   91.67 | 
+ℹ    validation.ts        | 100.00 |    95.89 |   87.50 | 
+ℹ   storage               |        |          |         | 
+ℹ    events.ts            | 100.00 |   100.00 |  100.00 | 
+ℹ    schema.ts            |  90.00 |    66.67 |   68.18 | 46-49 66-68 82-85 109 111 115-117
+ℹ   sync                  |        |          |         | 
+ℹ    conflict-policy.ts   |  71.11 |    80.00 |   33.33 | 34 38-40 42-63 68-79 82
+ℹ    queue.ts             |  74.30 |    81.58 |   66.67 | 75-77 79-95 98-103 106-113 116-117 119-129 152-155 176-182 191-217 220-226
+ℹ    server-store.ts      |  92.86 |    76.00 |   92.31 | 39-40 47-48
+ℹ -----------------------------------------------------------------------------------------------------------------------------------
+ℹ all files               |  83.03 |    88.14 |   76.92 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report

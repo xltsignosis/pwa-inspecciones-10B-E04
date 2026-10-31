@@ -1,0 +1,4 @@
+
+> pwa-inspecciones-laboratorio@0.1.0 lint
+> eslint src tests scripts public/sw.js --ext .js,.mjs,.ts,.tsx --max-warnings=0
+

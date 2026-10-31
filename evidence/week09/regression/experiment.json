@@ -1,0 +1,10 @@
+{
+  "commitSha": "8559c7b55be34160b7a7589a6c919b45116b1814",
+  "checkedAt": "2026-10-31T21:51:13.086Z",
+  "originalSha256": "53b27ca7bfacfd6f1a3a9834faf4f0bc72d41c45af6f0fdf9953667046ac5ff4",
+  "mutation": "Permitir campos adicionales al cambiar igualdad de cantidad de campos por >=.",
+  "failureExitCode": 1,
+  "recoveryExitCode": 0,
+  "sourceRestored": true,
+  "status": "pass"
+}

@@ -82,3 +82,28 @@ falte `Content-Length`, y por qué la alternativa de galería omite `capture`.
 Codex de OpenAI asistió en la implementación documentada, la revisión de cambios la ejecución
 de comprobaciones. Su influencia comprende los archivos listados y esta evidencia. 
 Los resultados descritos proceden de ejecuciones reales asistidas. 
+
+---
+
+## Ariel Abimael Chacon Herrera — Semana 09
+
+- **Estudiante:** Ariel Abimael Chacon Herrera, 10B - Equipo E04.
+- **Commit SHA evaluado:** [`8559c7b55be34160b7a7589a6c919b45116b1814`](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/commit/8559c7b55be34160b7a7589a6c919b45116b1814).
+- **Contribución:** suite de seguridad, pruebas de navegador, integración de
+  verificación y Actions, README, diagrama y evidencia reproducible.
+- **Decisión técnica:** probar el endpoint y la cola reales, con casos negativos,
+  para comprobar que una entrada rechazada no guarda datos y una respuesta
+  manipulada no confirma ni sobrescribe un pendiente.
+- **Prueba y resultado:** `npm.cmd run verify`, equivalente a `make verify`,
+  terminó con código 0: 30 pruebas de seguridad y 12 E2E aprobados, además de
+  las capas anteriores y build. El experimento de campos extra produjo 4 fallos;
+  al restaurar el control pasaron las 30 pruebas.
+- **Limitación:** el análisis de credenciales reconoce patrones concretos;
+  no certifica ausencia absoluta de secretos ni inspecciona el historial Git.
+- **Defensa propuesta:** explicar por qué validar en la interfaz no sustituye
+  el rechazo del servidor y reproducir `node scripts/security-regression.mjs`.
+- **Uso de IA:** Codex de OpenAI asistió en código de pruebas, CI, documentación
+  y ejecución automatizada. Los resultados provienen de comandos y Actions
+  enlazados. Revisión humana de Ariel: pendiente; no se afirma realizada.
+
+Resultados y enlaces: [evidencia técnica de semana 09](week09/verification.md).

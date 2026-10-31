@@ -1,0 +1,25 @@
+
+> pwa-inspecciones-laboratorio@0.1.0 test:e2e
+> playwright test --config=tests/e2e/playwright.config.ts
+
+
+Running 12 tests using 1 worker
+
+  ok  1 [chromium] › tests\e2e\camera-denied.spec.ts:4:5 › permite continuar sin foto cuando se deniega la cámara (420ms)
+  ok  2 [chromium] › tests\e2e\home.spec.ts:4:5 › la aplicación muestra las inspecciones del laboratorio (255ms)
+  ok  3 [chromium] › tests\e2e\inspection-navigation.spec.ts:4:5 › permite cambiar los estados de la pantalla principal (327ms)
+  ok  4 [chromium] › tests\e2e\inspection-navigation.spec.ts:28:5 › muestra el estado de error y permite reintentar (1.1s)
+  ok  5 [chromium] › tests\e2e\offline-capture.spec.ts:72:5 › crear offline, recargar y reconectar conserva una sola inspección sincronizada (740ms)
+  ok  6 [chromium] › tests\e2e\offline-capture.spec.ts:80:7 › completar captura offline sin foto con cámara denied (762ms)
+  ok  7 [chromium] › tests\e2e\offline-capture.spec.ts:80:7 › completar captura offline sin foto con cámara unavailable (711ms)
+  ok  8 [chromium] › tests\e2e\offline-capture.spec.ts:100:5 › captura inválida no inserta registros y conserva los campos (447ms)
+  ok  9 [chromium] › tests\e2e\offline-capture.spec.ts:110:5 › respuesta perdida tras guardar: el reintento conserva identidad y termina sincronizado (546ms)
+  ok 10 [chromium] › tests\e2e\security-headers.spec.ts:4:5 › producción entrega cabeceras y nonce por documento sin aceptar el del cliente (328ms)
+  ok 11 [chromium] › tests\e2e\security-headers.spec.ts:33:5 › CSP bloquea scripts inline sin nonce y React muestra la entrada como texto (210ms)
+  ok 12 [chromium] › tests\e2e\security-headers.spec.ts:54:5 › no pide cámara ni ubicación al cargar y conserva alternativas tras denegación (381ms)
+
+  12 passed (7.9s)
+[WebServer] (node:21748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:13920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

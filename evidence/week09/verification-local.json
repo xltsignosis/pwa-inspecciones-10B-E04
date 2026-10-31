@@ -1,0 +1,82 @@
+{
+    "schemaVersion":  2,
+    "checkedAt":  "2026-10-31T21:51:37.832Z",
+    "commitSha":  "8559c7b55be34160b7a7589a6c919b45116b1814",
+    "workingTreeClean":  true,
+    "runtime":  {
+                    "node":  "v24.16.0"
+                },
+    "status":  "pass",
+    "checks":  [
+                   {
+                       "id":  "structure",
+                       "status":  "pass",
+                       "missing":  [
+
+                                   ]
+                   },
+                   {
+                       "id":  "lint",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "typecheck",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:unit",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:integration",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:security",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:legacy",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "build",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:secrets",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   },
+                   {
+                       "id":  "test:e2e",
+                       "status":  "pass",
+                       "exitCode":  0,
+                       "error":  null
+                   }
+               ],
+    "academicReview":  {
+                           "status":  "pending",
+                           "message":  "Sin calificación automática. Revisar requisitos, decisión y evidencia por integrante con la rúbrica; existencia no implica calidad."
+                       },
+    "limits":  [
+                   "La instalación se verifica mediante npm ci por separado.",
+                   "No certifica ausencia de secretos.",
+                   "Las pruebas proporcionadas no cubren toda la aplicación."
+               ]
+}

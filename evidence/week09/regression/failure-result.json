@@ -1,0 +1,12 @@
+{
+  "layer": "security",
+  "checkedAt": "2026-10-31T21:51:12.693Z",
+  "node": "v24.16.0",
+  "commitSha": "8559c7b55be34160b7a7589a6c919b45116b1814",
+  "workingTreeClean": false,
+  "exitCode": 1,
+  "status": "fail",
+  "files": [
+    "tests/security.spec.ts"
+  ]
+}

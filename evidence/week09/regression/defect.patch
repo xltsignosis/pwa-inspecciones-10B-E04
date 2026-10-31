@@ -1,0 +1,13 @@
+diff --git a/src/lib/security/validation.ts b/src/lib/security/validation.ts
+index 7500d65..22f40bc 100644
+--- a/src/lib/security/validation.ts
++++ b/src/lib/security/validation.ts
+@@ -11,7 +11,7 @@ function hasExactFields(input: unknown, fields: string[]): input is Record<strin
+   const prototype = Object.getPrototypeOf(input);
+   if (prototype !== Object.prototype && prototype !== null) return false;
+   const keys = Reflect.ownKeys(input);
+-  return keys.length === fields.length && fields.every((field) => {
++  return keys.length >= fields.length && fields.every((field) => {
+     const descriptor = Object.getOwnPropertyDescriptor(input, field);
+     return descriptor !== undefined && "value" in descriptor && descriptor.enumerable;
+   });
