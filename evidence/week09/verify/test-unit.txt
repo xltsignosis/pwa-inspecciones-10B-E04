@@ -1,0 +1,46 @@
+
+> pwa-inspecciones-laboratorio@0.1.0 test:unit
+> node scripts/test-layer.mjs unit
+
+✔ preparar un reintento conserva clientId, versión y contenido (1.3081ms)
+✔ la misma operación se reconoce como duplicada sin insertar otra copia (1.2299ms)
+✔ una identidad inválida se rechaza sin crear registros (0.1133ms)
+✔ captura válida: acepta cero hallazgos y un entero positivo (1.4795ms)
+✔ captura inválida: rechaza sin datos (0.087ms)
+✔ captura inválida: rechaza ubicación vacía (0.0591ms)
+✔ captura inválida: rechaza ubicación con espacios (0.0503ms)
+✔ captura inválida: rechaza inspector ausente (0.0649ms)
+✔ captura inválida: rechaza hallazgos negativos (0.0575ms)
+✔ captura inválida: rechaza hallazgos fraccionarios (0.0505ms)
+✔ captura inválida: rechaza hallazgos como texto (0.0437ms)
+✔ captura inválida: rechaza estado desconocido (0.0815ms)
+✔ la entrada real del servidor aplica la regla de captura antes de guardar (0.3645ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 283.8583
+ℹ start of coverage report
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ file                  | line % | branch % | funcs % | uncovered lines
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ src                   |        |          |         | 
+ℹ  lib                  |        |          |         | 
+ℹ   security            |        |          |         | 
+ℹ    validation.ts      |  92.77 |    90.20 |   79.17 | 78-83
+ℹ   storage             |        |          |         | 
+ℹ    events.ts          | 100.00 |   100.00 |  100.00 | 
+ℹ    schema.ts          |  63.75 |    68.75 |   50.00 | 34 46-49 62-111 115-117
+ℹ   sync                |        |          |         | 
+ℹ    conflict-policy.ts |  71.85 |    85.71 |   56.25 | 38-40 42-63 68-79 82
+ℹ    queue.ts           |  57.54 |    84.62 |   31.03 | 46-52 55-66 68-77 79-95 98-103 106-113 116-117 119-129 140-156 158-162 165-187 191-217 220-226
+ℹ    server-store.ts    |  96.43 |    83.33 |   92.31 | 47-48
+ℹ   validation          |        |          |         | 
+ℹ    inspection.ts      | 100.00 |   100.00 |  100.00 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ all files             |  68.08 |    86.86 |   63.72 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report

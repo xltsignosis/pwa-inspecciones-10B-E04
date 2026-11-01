@@ -1,0 +1,35 @@
+
+> pwa-inspecciones-laboratorio@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/5) ...
+   Generating static pages (1/5) 
+   Generating static pages (2/5) 
+   Generating static pages (3/5) 
+ ✓ Generating static pages (5/5)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ƒ /                                    4.58 kB        94.8 kB
+├ ƒ /_not-found                          873 B          88.1 kB
+├ ƒ /api/inspecciones/[id]               0 B                0 B
+├ ƒ /api/inspecciones/sync               0 B                0 B
+├ ƒ /inspecciones                        140 B          87.4 kB
+└ ƒ /inspecciones/[id]                   4.37 kB        91.6 kB
++ First Load JS shared by all            87.2 kB
+  ├ chunks/117-1d98d1f0db729bec.js       31.7 kB
+  ├ chunks/fd9d1056-10dfaec9b4318f4c.js  53.6 kB
+  └ other shared chunks (total)          1.86 kB
+
+
+ƒ Middleware                             26.8 kB
+
+ƒ  (Dynamic)  server-rendered on demand
+

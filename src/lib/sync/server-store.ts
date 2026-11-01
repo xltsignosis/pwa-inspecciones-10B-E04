@@ -1,7 +1,7 @@
 import type { RemoteInspection } from "@/lib/storage/schema";
 import { hasSameContent } from "@/lib/sync/conflict-policy";
 import type { SyncOperation } from "@/lib/sync/queue";
-import { isValidInspection } from "@/lib/validation/inspection";
+import { validateSyncOperation } from "@/lib/security/validation";
 
 /**
  * Lado servidor de la sincronización (en memoria, datos sintéticos).
@@ -18,27 +18,9 @@ export type ReceiveResult =
   | { status: 409; body: { status: "conflict"; remote: RemoteInspection } }
   | { status: 400; body: { error: string } };
 
-function isText(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
-}
-
-function isCount(value: unknown, min: number): value is number {
-  return typeof value === "number" && Number.isInteger(value) && value >= min;
-}
-
 /** Valida la forma de la operación antes de tocar el almacén. */
 export function validateOperation(input: unknown): SyncOperation | null {
-  if (!input || typeof input !== "object") return null;
-  const operation = input as Partial<SyncOperation>;
-  const record = operation.record as Partial<RemoteInspection> | undefined;
-
-  if (!isText(operation.clientId) || !isCount(operation.version, 1)) return null;
-  if (!isCount(operation.baseVersion, 0) || operation.baseVersion >= operation.version) return null;
-  if (!record || typeof record !== "object") return null;
-  if (record.clientId !== operation.clientId || record.version !== operation.version) return null;
-  if (!isText(record.updatedAt) || !isValidInspection(record)) return null;
-
-  return operation as SyncOperation;
+  return validateSyncOperation(input);
 }
 
 export function createSyncServer() {

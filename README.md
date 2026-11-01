@@ -9,7 +9,102 @@ Comiencen por `START_HERE.md`. Este es un proyecto acumulativo: un repositorio p
 - **Semana 5** (`assignments/ASSIGNMENT.md`, *Actividad 5: Persistencia local y sincronización idempotente*): se agregó el almacenamiento local en IndexedDB (`src/lib/storage/schema.ts`), la cola de sincronización con reintentos y manejo de respuestas fuera de orden (`src/lib/sync/queue.ts`), la política de conflictos (`src/lib/sync/conflict-policy.ts`), un endpoint sintético idempotente (`POST /api/inspecciones/sync`), la documentación (`docs/sync-policy.md`) y las pruebas (`tests/sync.spec.ts`).
 - **Semana 6** (`assignments/ASSIGNMENT-semana06.md`, *Actividad 6: Capacidades del dispositivo y notificaciones*): se agregaron la captura fotográfica, ubicación manual, aviso de cambio de estado, panel del detalle, documentación y pruebas de capacidades. Los permisos se piden solo al presionar cada botón y la app funciona sin ellos.
 
-- **Semana 8** (`assignments/ASSIGNMENT-semana08.md`): incremento vigente. Captura real desde el inicio, persistencia y sincronización offline, pruebas por capas y verificación completa en CI. La semana 7 fue de evaluación, sin incremento nuevo.
+- **Semana 8** (`assignments/ASSIGNMENT-semana08.md`): captura real desde el inicio, persistencia y sincronización offline, pruebas por capas y verificación completa en CI. La semana 7 fue de evaluación, sin incremento nuevo.
+- **Semana 9** (`assignments/ASSIGNMENT-semana09.md`): incremento vigente de seguridad y privacidad. Rama `pwa-week-09`.
+
+## Semana 09: instalación, seguridad y verificación
+
+Requisitos: Node 22.22.2 (versión fijada en el workflow semanal), npm y Git.
+La verificación local de esta semana usa Node 24.16.0 y npm 11.13.0 en Windows.
+La app no requiere secretos ni variables `NEXT_PUBLIC_*`; la configuración
+rechaza estas últimas. Usar únicamente datos sintéticos.
+
+```bash
+npm ci
+npx playwright install chromium
+npm run dev
+```
+
+Abrir `http://localhost:3000`. Para producción local: detener desarrollo,
+ejecutar `npm run build` y `npm run start`. En PowerShell puede usarse `npm.cmd`
+y `npx.cmd` sin modificar la política de ejecución del equipo.
+
+```bash
+npm run test:security
+npm run verify
+```
+
+`make verify` ejecuta exactamente `npm run verify`; ese es el equivalente en
+Windows sin Make. `verify` comprueba estructura, lint, tipos, unitarias,
+integración, seguridad, regresiones heredadas, build, patrones de credenciales
+en fuentes/archivos públicos/`.next/static` y E2E en Chromium. Los pasos que
+necesitan build se omiten si este falla; cualquier fallo obligatorio produce
+código 1. No interpreta existencia de archivos como prueba de seguridad.
+
+| Control | Prueba y resultado esperado |
+|---|---|
+| Campos exactos, fechas, tipos y límites | `tests/security.spec.ts`: rechazar entradas manipuladas sin guardar |
+| Límite HTTP de 32 KiB, JSON y UTF-8 | Endpoint real: 400, 413 o 415; contar bytes aunque falte o mienta Content-Length |
+| Respuestas de sincronización | No confirmar ni sobrescribir un registro pendiente con respuestas inesperadas |
+| Secretos | Rechazar NEXT_PUBLIC_* sin reflejar valores; detector con casos positivos sintéticos y escaneo después del build |
+| CSP y cabeceras | `tests/e2e/security-headers.spec.ts`: nonce nuevo, cabeceras reales, scripts sin nonce bloqueados y texto sin interpretar como HTML |
+| Mínimo privilegio | No invocar cámara/ubicación al cargar; conservar alternativas después de denegación |
+
+`npm test` incluye seguridad. `npm run test:secrets` requiere un build previo.
+El detector reconoce formatos concretos de claves y asignaciones literales;
+no demuestra ausencia absoluta de secretos ni revisa el historial de Git.
+Los casos positivos del detector se construyen en memoria, sin credenciales reales.
+
+```mermaid
+flowchart LR
+  subgraph B[Dispositivo: datos locales sin aislamiento por usuario]
+    U[Captura sintética / permisos tras clic] --> V[Validación de campos exactos]
+    V --> I[(IndexedDB: pendientes y conflictos)]
+    C[(Cache Storage: shell y GET)] --> U
+    I --> Q[Cola: identidad y versión]
+  end
+  subgraph S[Servidor sintético: sin autenticación]
+    H[POST: JSON y límite de bytes] --> W[Validación independiente]
+    W --> M[(Map por proceso)]
+  end
+  Q -->|Red no confiable / HTTPS en despliegue| H
+  M --> R[Validar respuesta en cliente]
+  R -->|Confirmación o conflicto| I
+  N[CSP con nonce y cabeceras] --> U
+```
+
+La desconexión conserva pendientes; no evita pérdida por borrado o desalojo
+del navegador. El Map no persiste reinicios y el endpoint no autentica.
+`robots.txt` y `X-Robots-Tag` solicitan no indexar, sin restringir acceso.
+HSTS solo tiene efecto sobre HTTPS; las pruebas locales no acreditan un
+despliegue HTTPS. Cámara y ubicación se simulan para evitar datos reales.
+El layout ahora es dinámico para usar un nonce por documento; las métricas de
+renderizado estático de semanas anteriores que siguen abajo son históricas.
+
+### Reportes y experimento reproducible
+
+El workflow [Semana 09 - Seguridad y privacidad](https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/workflows/week-09-w09-security-privacy.yml?query=branch%3Apwa-week-09)
+ejecuta instalación limpia y los criterios del kit, además de la verificación
+completa. Publica `week09-verification-<SHA>` durante 14 días, incluso ante fallo:
+`reports/verification.json`, `reports/week09/`, reportes heredados de semana 08,
+cobertura, HTML de Playwright y trazas de fallos. El reporte identifica el SHA
+y si había cambios locales. E2E conserva su ruta heredada
+`reports/week08/e2e/results.json`; se incluye en el artefacto semanal.
+
+```bash
+node scripts/security-regression.mjs
+```
+
+Este experimento modifica temporalmente el control de campos exactos para
+permitir campos adicionales, ejecuta seguridad, restaura el archivo en `finally`
+y comprueba recuperación. Ejecutarlo sin otros procesos que editen o prueben
+ese archivo. Éxito del experimento exige fallo con el defecto, recuperación
+con código 0 y el mismo SHA-256 de la fuente original. Guarda parche, logs y
+resultados en `reports/week09/regression/`; no deja el defecto implementado.
+
+Evidencia versionada: [verificación y regresión de semana 09](evidence/week09/verification.md).
+Contribución individual: [sección de Ariel](evidence/individual.md#ariel-abimael-chacon-herrera--semana-09).
+Análisis: [amenazas](docs/threat-model.md) e [inventario de privacidad](docs/privacy-data-inventory.md).
 
 ## Entorno
 
@@ -166,7 +261,7 @@ npm run verify
 ```
 
 Ejecuta lint, tipos, unitarias, integración, las nueve suites anteriores, build y
-E2E. Genera `reports/verification.json` y logs por etapa en `reports/week08/verify/`.
+E2E. En semana 09 también ejecuta seguridad y escaneo del build. Genera `reports/verification.json` y logs por etapa en `reports/week09/verify/`.
 Continúa las comprobaciones independientes al detectar un fallo; E2E requiere
 build aprobado. Termina con código 1 si alguna comprobación obligatoria falla.
 El reporte contiene resultados técnicos, no una calificación automática.
@@ -212,7 +307,7 @@ Inviten a los integrantes y al docente al mismo repositorio privado. Cada person
 - `public/sw.js`: service worker (precache, runtime cache versionado, fallback offline, limpieza de cachés viejas y, desde la Semana 6, `notificationclick` para abrir la inspección notificada). Detalle de decisiones en `docs/cache-strategy.md`.
 - `public/manifest.webmanifest` + íconos: instalabilidad PWA (`name`, `short_name`, `display: standalone`, íconos 192/512).
 - `docs/`: requisitos, decisión del equipo, estrategia de caché (`cache-strategy.md`), decisión de renderizado CSR/SSR (`rendering-decision.md`), política de sincronización (`sync-policy.md`) y capacidades del dispositivo (`capabilities.md`).
-- `evidence/`: `individual.md` contiene la evidencia vigente de la Semana 8; los archivos `individual-semanaXX.md` conservan las semanas anteriores.
+- `evidence/`: `individual.md` contiene las secciones individuales vigentes; los archivos `individual-semanaXX.md` conservan las semanas anteriores.
 - `tests/`: nueve suites de regresión de las semanas anteriores, más `unit/`, `integration/`, `fixtures/` y `e2e/`. La estrategia distingue las aserciones estáticas antiguas del comportamiento real probado en Node y Chromium.
 
 Los estados de carga/vacío/error del simulador se disparan manualmente. Las pruebas

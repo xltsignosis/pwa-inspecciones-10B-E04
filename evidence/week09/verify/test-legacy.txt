@@ -1,0 +1,33 @@
+
+> pwa-inspecciones-laboratorio@0.1.0 test:legacy
+> node tests/starter.spec.mjs && npx tsx tests/manifest.spec.ts && node tests/ui-states.spec.mjs && npx tsx tests/service-worker.spec.ts && npx tsx tests/offline.spec.ts && npx tsx tests/rendering.spec.ts && npx tsx tests/sync.spec.ts && npx tsx tests/geolocation.spec.ts && npx tsx tests/capabilities.spec.ts
+
+starter.spec.mjs: PASS
+manifest.spec.ts: PASS
+ui-states.spec.mjs: PASS
+service-worker.spec.ts: PASS
+offline.spec.ts: PASS
+rendering.spec.ts: PASS
+  ok - la misma clave de idempotencia enviada dos veces no duplica
+  ok - si la respuesta se pierde, el reintento no crea otro registro
+  ok - una operación fallida por falta de red permanece en la cola
+  ok - cambio local y remoto simultáneo queda en conflicto sin perder ninguna copia
+  ok - la política distingue cambio solo local, solo remoto y contenido igual
+  ok - la cola sobrevive a cerrar la pestaña (se relee desde IndexedDB)
+  ok - una respuesta vieja que llega tarde no marca como sincronizada una edición nueva
+  ok - respuestas en orden distinto al envío se aplican a su propio registro
+  ok - el servidor rechaza operaciones inválidas sin guardarlas
+sync.spec.ts: PASS (9 casos)
+geolocation.spec.ts: PASS
+  ok - importar los módulos y consultar soporte no pide ningún permiso
+  ok - sin las APIs ninguna función lanza y cada una devuelve su alternativa
+  ok - cámara: el permiso denegado y los fallos del dispositivo no rompen el flujo
+  ok - cámara: captura una imagen, pide solo video y siempre apaga la cámara
+  ok - ubicación: devuelve solo coordenadas y precisión, o la captura manual
+  ok - notificaciones: con permiso denegado no se vuelve a pedir y el cambio se muestra en la app
+  ok - notificaciones: el permiso se pide una sola vez, en el primer cambio de estado
+  ok - notificaciones: el aviso del sistema lleva solo laboratorio y estado nuevo
+  ok - notificaciones: usa el service worker activo y sobrevive a un constructor que falla
+  ok - notificaciones: si la persona cierra el aviso no se insiste en la misma sesión
+  ok - la interfaz solo usa las capacidades desde un botón, nunca al cargar
+capabilities.spec.ts: PASS (11 casos)

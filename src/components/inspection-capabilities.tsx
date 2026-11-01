@@ -136,7 +136,7 @@ export function InspectionCapabilities({ inspection, onStatusChange }: Inspectio
         {showFilePicker && (
           <label className="capability-field">
             Elegir una imagen
-            <input type="file" accept="image/*" capture="environment" onChange={handleFileChosen} />
+            <input type="file" accept="image/*" onChange={handleFileChosen} />
           </label>
         )}
         <p className="capability-note" role="status" aria-live="polite">

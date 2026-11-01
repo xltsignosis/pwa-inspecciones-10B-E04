@@ -1,4 +1,5 @@
 import type { Inspection } from "@/lib/data/inspections";
+import { validateSyncResponse } from "@/lib/security/validation";
 import { notifyInspectionsChanged } from "@/lib/storage/events";
 import {
   INSPECTIONS_STORE_NAME,
@@ -294,16 +295,12 @@ export function createFetchSender(
         signal: controller.signal,
       });
 
-      if (response.status === 409) {
-        const body = (await response.json()) as { remote: RemoteInspection };
-        return { status: "conflict", remote: body.remote };
-      }
-      if (!response.ok) {
+      if (response.status !== 409 && !response.ok) {
         throw new Error(`El servidor respondió ${response.status}.`);
       }
-
-      const body = (await response.json()) as { version: number };
-      return { status: "ok", version: body.version };
+      const result = validateSyncResponse(await response.json(), operation, response.status === 409);
+      if (!result) throw new Error("Respuesta de sincronización inválida.");
+      return result;
     } finally {
       clearTimeout(timer);
     }

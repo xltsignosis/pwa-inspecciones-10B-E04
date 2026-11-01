@@ -1,0 +1,146 @@
+✔ acepta el contrato válido y los límites documentados (1.89ms)
+✔ rechaza inspección: null (0.1225ms)
+✔ rechaza inspección: arreglo (0.0634ms)
+✖ rechaza inspección: campo extra (3.1857ms)
+✔ rechaza inspección: campo ausente (0.1669ms)
+✔ rechaza inspección: objeto anidado (0.0706ms)
+✔ rechaza inspección: tipo numérico incorrecto (0.0742ms)
+✔ rechaza inspección: fecha imposible (0.0548ms)
+✔ rechaza inspección: año cero (0.0565ms)
+✔ rechaza inspección: texto vacío (0.0734ms)
+✔ rechaza inspección: control ASCII (0.0628ms)
+✔ rechaza inspección: identificador inválido (0.0562ms)
+✔ rechaza inspección: estado desconocido (0.0727ms)
+✔ rechaza inspección: longitud location (0.0505ms)
+✔ rechaza inspección: longitud inspector (0.056ms)
+✔ rechaza inspección: longitud summary (0.0706ms)
+✔ rechaza inspección: longitud statusLabel (0.0597ms)
+✔ rechaza inspección: hallazgos -1 (0.0368ms)
+✔ rechaza inspección: hallazgos 1.5 (0.038ms)
+✔ rechaza inspección: hallazgos 10001 (0.0329ms)
+✔ rechaza inspección: hallazgos NaN (0.0321ms)
+✔ rechaza inspección: hallazgos Infinity (0.037ms)
+✖ rechaza prototipos, símbolos y accesores sin ejecutar el getter (0.4105ms)
+✖ servidor rechaza estructuras y versiones manipuladas sin modificar datos (0.3709ms)
+✔ endpoint aplica 400, 413 y 415 sobre peticiones reales (17.5984ms)
+✔ límite HTTP cuenta bytes UTF-8 y no confía en Content-Length (0.2504ms)
+✖ respuestas manipuladas conservan íntegro el registro pendiente (17.6307ms)
+✔ CSP de producción restringe orígenes y genera nonces diferentes (1.12ms)
+✔ configuración pública se rechaza sin revelar su valor (0.3313ms)
+✔ detector identifica credenciales sintéticas y evita marcar palabras documentales (3.365ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 26
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 270.6405
+ℹ start of coverage report
+ℹ -------------------------------------------------------------------------------------------------------------------------------
+ℹ file                    | line % | branch % | funcs % | uncovered lines
+ℹ -------------------------------------------------------------------------------------------------------------------------------
+ℹ src                     |        |          |         | 
+ℹ  app                    |        |          |         | 
+ℹ   api                   |        |          |         | 
+ℹ    inspecciones         |        |          |         | 
+ℹ     sync                |        |          |         | 
+ℹ      route.ts           | 100.00 |    94.12 |  100.00 | 
+ℹ  lib                    |        |          |         | 
+ℹ   security              |        |          |         | 
+ℹ    headers.ts           | 100.00 |    94.74 |  100.00 | 
+ℹ    request.ts           | 100.00 |    96.67 |   91.67 | 
+ℹ    validation.ts        |  96.39 |    91.67 |   87.50 | 79-81
+ℹ   storage               |        |          |         | 
+ℹ    events.ts            | 100.00 |   100.00 |  100.00 | 
+ℹ    schema.ts            |  90.00 |    66.67 |   68.18 | 46-49 66-68 82-85 109 111 115-117
+ℹ   sync                  |        |          |         | 
+ℹ    conflict-policy.ts   |  71.85 |    84.62 |   53.33 | 34 38-40 42-63 68-79
+ℹ    queue.ts             |  80.73 |    80.85 |   70.83 | 75-77 93-94 98-103 110 116-117 119-129 153-155 176-182 191-217 220-226
+ℹ    server-store.ts      |  87.50 |    73.91 |   76.92 | 39-40 47-48 53-55
+ℹ -------------------------------------------------------------------------------------------------------------------------------
+ℹ all files               |  85.06 |    86.40 |   78.40 | 
+ℹ -------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report
+
+✖ failing tests:
+
+test at tests\security.spec.ts:2:3275
+✖ rechaza inspección: campo extra (3.1857ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\Users\Ari\Downloads\pwa-inspecciones-10B-E04\tests\security.spec.ts:35:52)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\security.spec.ts:2:3421
+✖ rechaza prototipos, símbolos y accesores sin ejecutar el getter (0.4105ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (C:\Users\Ari\Downloads\pwa-inspecciones-10B-E04\tests\security.spec.ts:40:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\security.spec.ts:2:4113
+✖ servidor rechaza estructuras y versiones manipuladas sin modificar datos (0.3709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 400
+  
+      at TestContext.<anonymous> (C:\Users\Ari\Downloads\pwa-inspecciones-10B-E04\tests\security.spec.ts:60:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\security.spec.ts:2:6358
+✖ respuestas manipuladas conservan íntegro el registro pendiente (17.6307ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (C:\Users\Ari\Downloads\pwa-inspecciones-10B-E04\tests\security.spec.ts:110:12)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

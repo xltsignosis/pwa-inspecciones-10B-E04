@@ -1,0 +1,90 @@
+{
+    "id":  41245486523,
+    "path":  ".github/workflows/week-09-w09-security-privacy.yml",
+    "head_sha":  "8559c7b55be34160b7a7589a6c919b45116b1814",
+    "status":  "completed",
+    "conclusion":  "success",
+    "html_url":  "https://github.com/xltsignosis/pwa-inspecciones-10B-E04/actions/runs/41245486523",
+    "jobs":  [
+                 {
+                     "name":  "evaluate",
+                     "status":  "completed",
+                     "conclusion":  "success",
+                     "steps":  {
+                                   "value":  [
+                                                 {
+                                                     "name":  "Set up job",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Checkout",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Run actions/setup-node@v4",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Setup 1",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Preparar Chromium",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "AC-01 - Instalación limpia y build completan.",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "AC-02 - Los artefactos declarados para la actividad existen.",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "AC-03 - Existe una suite ejecutable de pruebas.",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Verificación completa y reporte reproducible",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "AC-04 - Documentación y evidencia presentes",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Upload evaluation artifacts",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Post Run actions/setup-node@v4",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Post Checkout",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 },
+                                                 {
+                                                     "name":  "Complete job",
+                                                     "status":  "completed",
+                                                     "conclusion":  "success"
+                                                 }
+                                             ],
+                                   "Count":  14
+                               }
+                 }
+             ]
+}

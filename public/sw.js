@@ -1,6 +1,6 @@
 /* global self, caches, clients, fetch, Response */
 
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const PRECACHE_NAME = `inspecciones-precache-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `inspecciones-runtime-${CACHE_VERSION}`;
 const CACHE_PREFIX = "inspecciones-";
